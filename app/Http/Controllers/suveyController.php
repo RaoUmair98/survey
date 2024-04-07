@@ -93,6 +93,7 @@ class suveyController extends Controller
 
     public function stepFour(Request $request)
     {
+        
         //update Survey progress in usersurvey model
         if ($request->has('answer') && count($request->answer) > 0) {
             foreach ($request->answer as $key => $answer) {
@@ -107,7 +108,6 @@ class suveyController extends Controller
         //calculate the survey percentage
         $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
         $totalResponse = SurveyResponse::where('user_id', $request->userId)->where('survey_id', $request->surveyId)->get()->count();
-        //dd($totalResponse, $totalQuestions);
         $percentCompleted = ($totalResponse / $totalQuestions) * 100;
 
         User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()->update(['percentCompleted' => $percentCompleted]);

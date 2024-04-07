@@ -55,11 +55,10 @@ class superadminController extends Controller
     public function responseSurvay(Request $request)
     {
         $role_id = Auth::user()->role->id;
-
+      
         if ($role_id == 1) {
-            $user =  Auth::user();
-            $usersurveys = UserSurvay::paginate(10);
-        } else {
+             $usersurveys = UserSurvay::paginate(10);
+         } else {
             /** @var \App\User $user */
             $user =  Auth::user();
             $subordinates = $user->subordinates()->pluck('id')->toArray();
@@ -147,8 +146,18 @@ class superadminController extends Controller
         $survey = Survey::findOrFail($request->Id);
         $part = "Part III";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
+        $questionIds = $questions->pluck('id')->all(); 
+        
+        $responses = SurveyResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']);
+
+        $managers = ManagerResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']); 
+
         //dd($part,$questions);
-        return view('survey.stepthree', compact(['survey', 'part', 'questions']));
+        return view('survey.stepthree', compact(['survey', 'part', 'questions' , 'responses', 'managers']));
     }
 
     public function viewSurvayStepfour(Request $request)
@@ -156,9 +165,18 @@ class superadminController extends Controller
         $survey = Survey::findOrFail($request->Id);
         $part = "Part IV";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
+        $questionIds = $questions->pluck('id')->all(); 
+        
+        $responses = SurveyResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']);
+
+        $managers = ManagerResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']); 
 
         //dd($part,$questions);
-        return view('survey.stepfour', compact(['survey', 'part', 'questions']));
+        return view('survey.stepfour', compact(['survey', 'part', 'questions' , 'responses', 'managers']));
     }
 
     public function viewSurvayStepfive(Request $request)
@@ -166,8 +184,18 @@ class superadminController extends Controller
         $survey = Survey::findOrFail($request->Id);
         $part = "Part V";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
+        $questionIds = $questions->pluck('id')->all(); 
+        
+        $responses = SurveyResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']);
+
+        $managers = ManagerResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']); 
+
         //dd($part,$questions);
-        return view('survey.stepfive', compact(['survey', 'part', 'questions']));
+        return view('survey.stepfive', compact(['survey', 'part', 'questions' , 'responses', 'managers']));
     }
 
     public function viewSurvayStepsix(Request $request)
@@ -175,8 +203,18 @@ class superadminController extends Controller
         $survey = Survey::findOrFail($request->Id);
         $part = "Part VI";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
+        $questionIds = $questions->pluck('id')->all(); 
+        
+        $responses = SurveyResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']);
+
+        $managers = ManagerResponse::where('survey_id', $survey->id)
+                                ->whereIn('question_id', $questionIds)
+                                ->get(['question_id', 'response']); 
+
         //dd($part,$questions);
-        return view('survey.stepsix', compact(['survey', 'part', 'questions']));
+        return view('survey.stepsix', compact(['survey', 'part', 'questions' , 'responses', 'managers']));
     }
 
 
@@ -227,7 +265,7 @@ class superadminController extends Controller
     {
         $user = User::findOrFail($request->userId);
         $surveys = Survey::all();
-
+       
         return view('superAdmin.assignSurvey', compact(['user', 'surveys']));
 
 
@@ -249,6 +287,11 @@ class superadminController extends Controller
 
     public function assignSurvey(Request $request)
     {
+        // dd($request->all());
+        $user = $request->user();
+
+        $survey = Survey::where('user_id', $user->id)->get();
+       
         try {
             // Assigning survey to the user
             UserSurvay::create([
@@ -259,10 +302,9 @@ class superadminController extends Controller
 
             // Finding the user by their ID
             $user = User::find($request->user_id);
-
+            
             // Sending a reminder email to the user
             $survey = Survey::find($request->survey_id);
-
 
             //find manager
             $manager = $user->getManager();

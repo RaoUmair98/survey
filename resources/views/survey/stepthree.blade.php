@@ -161,10 +161,17 @@
                                     </div>
 
                                     <!-- Third column with 3/12 width -->
-                                    <div class="col-span-2 bg-gray-200 p-2"></div>
-
+                                    <div class="col-span-2 bg-gray-200 p-2 text-center">
+                                        @foreach($managers->where('question_id', $question->id) as $manager)
+                                            {{ $manager->response }}
+                                        @endforeach
+                                    </div>
                                     <!-- Fourth column with 3/12 width -->
-                                    <div class="col-span-2 bg-gray-200 p-2"></div>
+                                    <div class="col-span-2 bg-gray-200 p-2 text-center">
+                                        @foreach($responses->where('question_id', $question->id) as $response)
+                                            {{ $response->response }}
+                                        @endforeach
+                                    </div>
                                 </div>
                             @endif
                         @endforeach

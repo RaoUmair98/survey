@@ -140,7 +140,7 @@
                     @php
                         $subheads = $questions->pluck('subTitle')->unique()->toArray();
                     @endphp
-                    <form action="{{ route('surveyFive') }}" method="POST" id="partIIForm">
+                    <form action="{{ route('dashboard') }}" method="GET" id="partIIForm">
                         @csrf
                         @foreach ($subheads as $subhead)
                             <h3 class="font-bold mb-4 mt-4 mx-4">{{ Str::upper($subhead) }}</h3>
@@ -163,10 +163,14 @@
 
                                         <!-- Third column with 3/12 width -->
                                         <div class="col-span-4 bg-gray-200 p-2">
-                                            <input type="text" name="answer[{{ $question->id }}]"
-                                                class="w-full py-2 px-3 rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                placeholder="Enter your answer here" required>
+                                            <div class="col-span-4 bg-gray-200 p-2">
+                                                <input type="text" name="answer[{{$question->id}}]" value="{{ $surveyResponses->where('question_id', $question->id)->first()->response }}"
+                                                    class="w-full py-2 px-3 rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    placeholder="Enter your answer here" readonly> 
+                                            </div>
+
                                         </div>
+
 
                                         {{-- <!-- Fourth column with 3/12 width -->
                                         <div class="col-span-2 bg-gray-200 p-2"></div> --}}
@@ -185,7 +189,7 @@
                             </a>
                             <button type="submit"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Next Part VI
+                               Dashboard
                             </button>
                         </div>
                     </form>

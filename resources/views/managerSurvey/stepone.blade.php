@@ -170,8 +170,16 @@
 
                                         </div>
                                     </div>
-                                    <!-- Fourth column with 3/12 width -->
+
+                                    @if($user_id === "1")
                                     <div class="col-span-2 bg-gray-200 p-2">
+                                        <input
+                                            class="block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-slate-300"
+                                            value="{{ $managers->where('question_id', $question->id)->first()->response ?? '' }}"
+                                            readonly>
+                                    </div>
+                                    @else
+                                        <!-- Fourth column with 3/12 width -->
                                         <div class="col-span-2 bg-gray-200 p-2">
                                             <select name="managerAnswer[{{ $question->id }}]"
                                                 class="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
@@ -183,8 +191,8 @@
                                                 <option value="FD">FD</option>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
+                                    @endif
+                            </div>
                             @endforeach
 
                             {{-- button --}}

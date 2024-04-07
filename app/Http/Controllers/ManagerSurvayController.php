@@ -22,10 +22,13 @@ class ManagerSurvayController extends Controller
 
     public function stepOne(Request $request)
     {
+        $survey =  $request->surveyId;
+        $user_id = $request->userId;
 
         $supervisor = User::find($request->userId);
         $surveyUser = User::find($request->SurveyuserId);
         $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->SurveyuserId)->get();
+        $managers = ManagerResponse::where('survey_id', $request->surveyId)->where('subordinate_id', $request->SurveyuserId)->get();
 
         //Mark Survey Started at User Model
         // $user = User::find($request->userId)->update(['isSurveyStarted' => true]);
@@ -42,17 +45,16 @@ class ManagerSurvayController extends Controller
         $survey = Survey::findOrfail($request->surveyId);
         $part = "Part II";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
-        return view('managerSurvey.stepone', compact(['survey', 'part', 'questions', 'surveyResponses', 'surveyUser']));
+        return view('managerSurvey.stepone', compact(['user_id', 'survey', 'part', 'questions', 'surveyResponses', 'surveyUser', 'managers']));
     }
 
     public function stepTwo(Request $request)
     {
 
         $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->subordinateId)->get();
-        //update Survey progress in usersurvey model
 
-       
-        
+        //update Survey progress in usersurvey model
+ 
         if ($request->has('managerAnswer') && count($request->managerAnswer) > 0) {
             foreach ($request->managerAnswer as $key => $answer) {
                 ManagerResponse::updateOrCreate(
@@ -66,7 +68,6 @@ class ManagerSurvayController extends Controller
         //calculate the survey percentage
         $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
         $totalResponse =  ManagerResponse::where('user_id', $request->userId)->where('survey_id', $request->surveyId)->where('subordinate_id', $request->subordinateId)->get()->count();
-        //dd($totalResponse, $totalQuestions);
         $percentCompleted = ($totalResponse / $totalQuestions) * 100;
 
 
@@ -78,7 +79,6 @@ class ManagerSurvayController extends Controller
         $survey = Survey::findOrfail($request->surveyId);
         $part = "Part III";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
-
         $surveyUser = User::find($request->subordinateId);
 
         return view('managerSurvey.steptwo', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
@@ -89,6 +89,7 @@ class ManagerSurvayController extends Controller
         //save part III
         //update Survey progress in usersurvey model
         $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->subordinateId)->get();
+
         if ($request->has('managerAnswer') && count($request->managerAnswer) > 0) {
             foreach ($request->managerAnswer as $key => $answer) {
                 ManagerResponse::updateOrCreate(
@@ -101,107 +102,111 @@ class ManagerSurvayController extends Controller
 
         //calculate the survey percentage
         $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
-        $totalResponse =  ManagerResponse::where('user_id', $request->userId)->where('survey_id', $request->surveyId)->where('subordinate_id', $request->subordinateId)->get()->count();
-        //dd($totalResponse, $totalQuestions);
+        $totalResponse =  ManagerResponse::where('survey_id', $request->surveyId)->where('subordinate_id', $request->subordinateId)->get()->count();
+        
         $percentCompleted = ($totalResponse / $totalQuestions) * 100;
-        // ManagerSurvay::where('survey_id', $request->surveyId)
-        //     ->where('manager_id', $request->userId)
-        //     ->where('user_id', $request->subordinateId)
-        //     ->first()->update(['percentCompleted' => $percentCompleted]);
+        ManagerSurvay::where('survey_id', $request->surveyId)
+            ->where('user_id', $request->subordinateId)
+            ->first()->update(['percentCompleted' => $percentCompleted]);
+      
         $survey = Survey::findOrfail($request->surveyId);
         $part = "Part IV";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
         $surveyUser = User::find($request->subordinateId);
-        return view('userSurvey.stepthree', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+        return view('managersurvey.stepthree', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
     }
 
         public function stepFour(Request $request)
         {
-            
+
+
             $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->subordinateId)->get();
-            //update Survey progress in usersurvey model
-            // if ($request->has('answer') && count($request->answer) > 0) {
-            //     foreach ($request->answer as $key => $answer) {
 
-            //         SurveyResponse::updateOrCreate(
-            //             ['question_id' => $key, 'survey_id' => $request->surveyId, 'user_id' => $request->userId],
-            //             ['response' => $answer]
-            //         );
-            //     }
-            // }
-
+            if ($request->has('managerAnswer') && count($request->managerAnswer) > 0) {
+                foreach ($request->managerAnswer as $key => $answer) {
+                    ManagerResponse::updateOrCreate(
+    
+                        ['question_id' => $key, 'survey_id' => $request->surveyId, 'user_id' => $request->userId, 'subordinate_id' => $request->subordinateId],
+                        ['response' => $answer]
+                    );
+                }
+            }
+    
             //calculate the survey percentage
             $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
-            $totalResponse = SurveyResponse::where('user_id', $request->userId)->where('survey_id', $request->surveyId)->get()->count();
-            //dd($totalResponse, $totalQuestions);
+            $totalResponse =  ManagerResponse::where('survey_id', $request->surveyId)->where('subordinate_id', $request->subordinateId)->get()->count();
+            
             $percentCompleted = ($totalResponse / $totalQuestions) * 100;
-
-            User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()->update(['percentCompleted' => $percentCompleted]);
-            //end
+            ManagerSurvay::where('survey_id', $request->surveyId)
+                ->where('user_id', $request->subordinateId)
+                ->first()->update(['percentCompleted' => $percentCompleted]);
+          
             $survey = Survey::findOrfail($request->surveyId);
             $part = "Part V";
             $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
             $surveyUser = User::find($request->subordinateId);
-            return view('userSurvey.stepfive', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+            return view('managersurvey.stepfour', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
         }
 
         public function stepFive(Request $request)
         {
             
+        $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->subordinateId)->get();
+
+        if ($request->has('managerAnswer') && count($request->managerAnswer) > 0) {
+            foreach ($request->managerAnswer as $key => $answer) {
+                ManagerResponse::updateOrCreate(
+
+                    ['question_id' => $key, 'survey_id' => $request->surveyId, 'user_id' => $request->userId, 'subordinate_id' => $request->subordinateId],
+                    ['response' => $answer]
+                );
+            }
+        }
+
+        //calculate the survey percentage
+        $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
+        $totalResponse =  ManagerResponse::where('survey_id', $request->surveyId)->where('subordinate_id', $request->subordinateId)->get()->count();
+        
+        $percentCompleted = ($totalResponse / $totalQuestions) * 100;
+        ManagerSurvay::where('survey_id', $request->surveyId)
+            ->where('user_id', $request->subordinateId)
+            ->first()->update(['percentCompleted' => $percentCompleted]);
+      
+        $survey = Survey::findOrfail($request->surveyId);
+        $part = "Part VI";
+        $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
+        $surveyUser = User::find($request->subordinateId);
+        return view('managersurvey.stepfive', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+        }
+
+        public function stepSix(Request $request)
+        {
             $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->subordinateId)->get();
-            //update Survey progress in usersurvey model
-            // if ($request->has('answer') && count($request->answer) > 0) {
-            //     foreach ($request->answer as $key => $answer) {
+            dd($surveyResponses);
 
-            //         SurveyResponse::updateOrCreate(
-            //             ['question_id' => $key, 'survey_id' => $request->surveyId, 'user_id' => $request->userId],
-            //             ['response' => $answer]
-            //         );
-            //     }
-            // }
-
+            if ($request->has('managerAnswer') && count($request->managerAnswer) > 0) {
+                foreach ($request->managerAnswer as $key => $answer) {
+                    ManagerResponse::updateOrCreate(
+    
+                        ['question_id' => $key, 'survey_id' => $request->surveyId, 'user_id' => $request->userId, 'subordinate_id' => $request->subordinateId],
+                        ['response' => $answer]
+                    );
+                }
+            }
+    
             //calculate the survey percentage
-            // $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
-            // $totalResponse = SurveyResponse::where('user_id', $request->userId)->where('survey_id', $request->surveyId)->get()->count();
-            // //dd($totalResponse, $totalQuestions);
-            // $percentCompleted = ($totalResponse / $totalQuestions) * 100;
-
-            // User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()->update(['percentCompleted' => $percentCompleted]);
-            // //end
-
-            //save part V
-
+            $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
+            $totalResponse =  ManagerResponse::where('survey_id', $request->surveyId)->where('subordinate_id', $request->subordinateId)->get()->count();
+            
+            $percentCompleted = ($totalResponse / $totalQuestions) * 100;
+            ManagerSurvay::where('survey_id', $request->surveyId)
+                ->where('user_id', $request->subordinateId)
+                ->first()->update(['percentCompleted' => $percentCompleted]);
+          
             $survey = Survey::findOrfail($request->surveyId);
             $part = "Part VI";
             $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
             $surveyUser = User::find($request->subordinateId);
-            return view('userSurvey.stepsix', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+            return view('managersurvey.stepsix', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
         }
-
-    //     public function stepSix(Request $request)
-    //     {
-    //         //update Survey progress in usersurvey model
-    //         if ($request->has('answer') && count($request->answer) > 0) {
-    //             foreach ($request->answer as $key => $answer) {
-
-    //                 SurveyResponse::updateOrCreate(
-    //                     ['question_id' => $key, 'survey_id' => $request->surveyId, 'user_id' => $request->userId],
-    //                     ['response' => $answer]
-    //                 );
-    //             }
-    //         }
-
-    //         //calculate the survey percentage
-    //         $totalQuestions = Question::where('survey_id', $request->surveyId)->get()->count();
-    //         $totalResponse = SurveyResponse::where('user_id', $request->userId)->where('survey_id', $request->surveyId)->get()->count();
-    //         //dd($totalResponse, $totalQuestions);
-    //         $percentCompleted = ($totalResponse / $totalQuestions) * 100;
-
-    //         User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()
-    //             ->update([
-    //                 'percentCompleted' => $percentCompleted,
-    //                 'survayCompleted' => true
-    //             ]);
-    //         return redirect()->route('dashboard');
-    //     }
 }
