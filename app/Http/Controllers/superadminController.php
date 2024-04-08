@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class superadminController extends Controller
@@ -58,14 +59,30 @@ class superadminController extends Controller
       
         if ($role_id == 1) {
              $usersurveys = UserSurvay::paginate(10);
+
+             foreach ($usersurveys as $survey) {
+                $userId = $survey->user_id;
+                $surveyId = $survey->survey_id;
+                $name = User::where('id', $userId)->value('name');
+                $title = Survey::where('id', $surveyId)->value('title');
+            }
+       
+             //  dd($usersurveys);
          } else {
             /** @var \App\User $user */
             $user =  Auth::user();
+            $name = User::where('id', $user->id)->value('name');
             $subordinates = $user->subordinates()->pluck('id')->toArray();
             $usersurveys = UserSurvay::whereIn('user_id', $subordinates)->paginate(10);
+            foreach ($usersurveys as $survey) {
+                $userId = $survey->user_id;
+                $surveyId = $survey->survey_id;
+                $name = User::where('id', $userId)->value('name');
+                $title = Survey::where('id', $surveyId)->value('title');
+            }
         }
 
-        return view('superAdmin.survayResponse', compact(['usersurveys']));
+        return view('superAdmin.survayResponse', compact(['usersurveys', 'name', 'title']));
     }
 
     public function editSurvay(Request $request)
@@ -265,17 +282,22 @@ class superadminController extends Controller
     {
         $user = User::findOrFail($request->userId);
         $surveys = Survey::all();
-       
-        return view('superAdmin.assignSurvey', compact(['user', 'surveys']));
-
-
-
-        // if ($user->inviteSend) {
-        //     Mail::to($user)->send(new SurvayReminderMail());
-        //     return redirect()->route('UserManagement', ['role_id' => 1])->with('success_message', 'Survay Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
-        // }
-
+        
+        // Check if the user's invite has already been sent
+        if ($user->inviteSend) {
+            // Send a survey reminder email
+            Mail::to($user)->send(new SurvayReminderMail());
+            
+            // Redirect back to the user management page with a success message
+            return redirect()->route('UserManagement', ['role_id' => 1])
+                             ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
+        }
+    
+        // If the user's invite has not been sent yet, return the view to assign a survey
+        return view('superAdmin.assignSurvey', compact('user', 'surveys'));
+    
         // $response = Password::sendResetLink(["email" => $user->email]);
+        // Log::info(['$response' => $response ]);
 
         // if ($response == Password::RESET_LINK_SENT) {
         //     $user->update(['inviteSend' => true]);
@@ -305,7 +327,6 @@ class superadminController extends Controller
             
             // Sending a reminder email to the user
             $survey = Survey::find($request->survey_id);
-
             //find manager
             $manager = $user->getManager();
 
@@ -316,6 +337,7 @@ class superadminController extends Controller
             $emailStatus = [];
 
             $emailStatus['Employee'] = Mail::to($user->email)->send(new SurvayInvitationMail($surveyStart = url('survey?surveyId=1'),$survey));
+
             if ($emailStatus['Employee']) {
                 // Updating inviteSend to true for the user
                 $user->update(['inviteSend' => true]);
@@ -327,6 +349,7 @@ class superadminController extends Controller
                 'email' => $user->email,
                 'status' => $emailStatus['Employee'] ? 'Sent' : 'Failed'
             ];
+
 
             switch ($role_id) {
                 case 1:
@@ -387,9 +410,6 @@ class superadminController extends Controller
                     $flashMessages[] = "Invalid role ID.";
                     break;
             }
-
-
-
 
             session()->flash('flash_messages', $flashMessages);
 

@@ -131,8 +131,8 @@
                             @foreach ($usersurveys as $usersurvey)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $usersurvey->id }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $usersurvey->user->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $usersurvey->survey->title }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $title }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="min-w-[10rem] h-4 bg-gray-200 rounded-full">
                                             <div class="h-full text-center text-xs text-white bg-green-500 rounded-full"
@@ -143,7 +143,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
 
                                         <a type="button"
-                                            href="{{ route('manager.survey', ['surveyId' => $usersurvey->survey->id, 'userId' => $usersurvey->user->id]) }}"
+                                            href="{{ route('manager.survey', ['surveyId' => $usersurvey->survey_id, 'userId' => $usersurvey->user_id]) }}"
                                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

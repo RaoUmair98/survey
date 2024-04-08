@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Redirect;
+
 
 class AddUser extends Component
 {
@@ -70,6 +72,7 @@ class AddUser extends Component
        
         $this->reset();
         $this->roles = Role::where('id', '>', Auth::user()->role_id)->get();
+
     }
 
     public function openDiv()
