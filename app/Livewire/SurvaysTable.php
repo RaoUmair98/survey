@@ -92,14 +92,14 @@ final class SurvaysTable extends PowerGridComponent
     public function edit($rowId)
     {
         if (Auth::user()->role->id == 1) {
-        return redirect()->route('editSurvay', ['Id' => $rowId]);
+        return redirect()->route('editSurvey', ['Id' => $rowId]);
         }
     }
 
     #[\Livewire\Attributes\On('view')]
     public function view($rowId)
     {
-        return redirect()->route('viewSurvay', ['Id' => $rowId]);
+        return redirect()->route('viewSurvey', ['Id' => $rowId]);
     }
 
     #[\Livewire\Attributes\On('delete')]

@@ -55,7 +55,7 @@
                             d="M5 3a1 1 0 011-1h8a1 1 0 011 1v2h3a1 1 0 011 1v12a1 1 0 01-1 1H6a1 1 0 01-1-1V6a1 1 0 011-1h3V3zm5 2H6v12h9V5h-3zM8 8a1 1 0 011-1h2a1 1 0 010 2H9a1 1 0 01-1-1zm0 4a1 1 0 011-1h2a1 1 0 010 2H9a1 1 0 01-1-1z"
                             clip-rule="evenodd" />
                     </svg>
-                    Create New Survay
+                    Create New Survey
                 </a>
             </div>
         </div>
@@ -109,7 +109,7 @@
 
 
 
-                    <form class="w-full max-w-full" action="{{ route('createNewSurvay') }}" method="POST">
+                    <form class="w-full max-w-full" action="{{ route('createNewSurvey') }}" method="POST">
                         @csrf
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">

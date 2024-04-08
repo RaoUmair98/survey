@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Validator;
 
 class superadminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $allUsers = User::where('role_id', '!=', 1)->get();
         return view('superAdmin.dashboard', compact(['allUsers']));
@@ -108,7 +108,7 @@ class superadminController extends Controller
 
         $survey = Survey::findOrFail($request->id);
         $survey->update($request->all());
-        return redirect()->route('editSurvay', ['Id' => $request->id]);
+        return redirect()->route('editSurvey', ['Id' => $request->id]);
     }
 
     public function storeQuestion(Request $request)
@@ -354,7 +354,7 @@ class superadminController extends Controller
             switch ($role_id) {
                 case 1:
                     //send email to manager
-                    $emailStatus['Super Admin'] = Mail::to($manager->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvay?Id=1'), $survey, $user));
+                    $emailStatus['Super Admin'] = Mail::to($manager->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
                     $flashMessages[] = [
                         'role' => 'Super Admin',
                         'name' => $manager->name,
@@ -366,8 +366,8 @@ class superadminController extends Controller
                 case 2:
                     $director = $manager->getManager();
                     $superAdmin = $director->getManager();
-                    $emailStatus['director'] = Mail::to($director->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvay?Id=1'), $survey, $user));
-                    $emailStatus['super_admin'] = Mail::to($superAdmin->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvay?Id=1'), $survey, $user));
+                    $emailStatus['director'] = Mail::to($director->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
+                    $emailStatus['super_admin'] = Mail::to($superAdmin->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
                     $flashMessages[] = [
                         'role' => 'Director',
                         'name' => $director->name,
@@ -384,9 +384,9 @@ class superadminController extends Controller
                 case 3:
                     $director = $manager->getManager();
                     $superAdmin = $director->getManager();
-                    $emailStatus['manager'] = Mail::to($manager->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvay?Id=1'), $survey, $user));
-                    $emailStatus['director'] = Mail::to($director->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvay?Id=1'), $survey, $user));
-                    $emailStatus['super_admin'] = Mail::to($superAdmin->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvay?Id=1'), $survey, $user));
+                    $emailStatus['manager'] = Mail::to($manager->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
+                    $emailStatus['director'] = Mail::to($director->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
+                    $emailStatus['super_admin'] = Mail::to($superAdmin->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
                     $flashMessages[] = [
                         'role' => 'Manager',
                         'name' => $manager->name,

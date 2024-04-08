@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 
 class AddUser extends Component
@@ -50,25 +51,26 @@ class AddUser extends Component
 
 
         $validatedData = $this->validate();
-        $password = "password";
+        $temporaryPassword = Str::random(6); // Adjust the length as needed
 
 
 
         $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
-            'password' => Hash::make($password),
+            'password' => Hash::make($temporaryPassword),
             'role_id' => $this->role_id,
             'manager_id' =>  $this->reportsTo,
 
         ]);
 
 
+        Mail::to($user)->send(new UserCreatedMail($user, $temporaryPassword));
+
         session()->flash('success_message', 'User :' . $this->name . ' successfully added.');
 
         $manager = User::find($this->reportsTo);
         // $response = Password::sendResetLink(["email" => $this->email]);
-        Mail::to($user)->send(new  UserCreatedMail());
        
         $this->reset();
         $this->roles = Role::where('id', '>', Auth::user()->role_id)->get();

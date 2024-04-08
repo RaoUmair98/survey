@@ -81,7 +81,7 @@ class SurvaySeeder extends Seeder
 
         // Re-enable foreign key checks
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-        $this->command->info('Survay seeded successfully!');
+        $this->command->info('Survey seeded successfully!');
         $this->command->info('Developed by Swapin Vidya (c) 2024 for LaravelOne.in.');
     }
 }

@@ -30,7 +30,7 @@
                     </li>
                     <li class="inline-flex items-center sd">
                         <a class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:focus:text-blue-500"
-                            href="{{ route('allSurvay') }}">
+                            href="{{ route('allSurvey') }}">
                             Survey Management
                             <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

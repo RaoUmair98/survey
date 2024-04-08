@@ -65,7 +65,7 @@
                                 <p>Completed Survey</p>
                             </div>
                             <div class="flex_btn flex items-center justify-between">
-                                <a href="dashboard/responseSurvay">View All</a>
+                                <a href="/survey/view_completed">View All</a>
                                 <svg width="39" height="44" viewBox="0 0 39 44" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g opacity="0.5">
@@ -96,7 +96,7 @@
                                 <p>In Progress Surveys</p>
                             </div>
                             <div class="flex_btn flex items-center justify-between">
-                                <a href="dashboard/responseSurvay">View All</a>
+                                <a href="dashboard/responseSurvey">View All</a>
                                 <svg width="39" height="44" viewBox="0 0 39 44" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g opacity="0.5">
@@ -130,7 +130,7 @@
                                 <p>Not Started Surveys</p>
                             </div>
                             <div class="flex_btn flex items-center justify-between">
-                                <a href="dashboard/responseSurvay">View All</a>
+                                <a href="dashboard/responseSurvey">View All</a>
                                 <svg width="39" height="44" viewBox="0 0 39 44" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g opacity="0.5">

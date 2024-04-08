@@ -91,9 +91,9 @@ Route::get('/survey/{manager}/{manager_id}/employee_progress', [DirectorSurveyCo
     ->middleware(['auth', 'verified', 'role:director'])
     ->name('director.employee_progress');
 
-Route::post('/survey/view_compleated', [UserSurveyController::class, 'index'])
+Route::get('/survey/view_completed', [UserSurveyController::class, 'index'])
     ->middleware(['auth', 'verified'])
-    ->name('survey.view_compleated');
+    ->name('survey.view_completed');
 
 
 
@@ -105,32 +105,32 @@ Route::get('/dashboard/adduser', [superadminController::class, 'addUser'])->midd
 Route::get('/dashboard/edituser', [superadminController::class, 'editUser'])->middleware(['auth', 'verified'])->name('editUser');
 
 
-Route::get('/dashboard/allSurvay', [superadminController::class, 'allSurvay'])->middleware(['auth', 'verified'])->name('allSurvay');
-Route::get('/dashboard/responseSurvay', [superadminController::class, 'responseSurvay'])->middleware(['auth', 'verified'])->name('responseSurvay');
+Route::get('/dashboard/allSurvey', [superadminController::class, 'allSurvay'])->middleware(['auth', 'verified'])->name('allSurvey');
+Route::get('/dashboard/responseSurvey', [superadminController::class, 'responseSurvay'])->middleware(['auth', 'verified'])->name('responseSurvey');
 
-Route::get('/dashboard/createSurvay', [superadminController::class, 'createSurvay'])->middleware(['auth', 'verified'])->name('createSurvay');
-Route::post('/dashboard/createNewSurvay', [superadminController::class, 'createNewSurvay'])->middleware(['auth', 'verified'])->name('createNewSurvay');
+Route::get('/dashboard/createSurvey', [superadminController::class, 'createSurvay'])->middleware(['auth', 'verified'])->name('createSurvey');
+Route::post('/dashboard/createNewSurvey', [superadminController::class, 'createNewSurvay'])->middleware(['auth', 'verified'])->name('createNewSurvey');
 
 
 
-Route::get('/dashboard/editSurvay', [superadminController::class, 'editSurvay'])->middleware(['auth', 'verified'])->name('editSurvay');
-Route::patch('/dashboard/updateSurvay', [superadminController::class, 'updateSurvay'])->middleware(['auth', 'verified'])->name('updateSurvay');
+Route::get('/dashboard/editSurvey', [superadminController::class, 'editSurvay'])->middleware(['auth', 'verified'])->name('editSurvey');
+Route::patch('/dashboard/updateSurvey', [superadminController::class, 'updateSurvay'])->middleware(['auth', 'verified'])->name('updateSurvey');
 Route::patch('/dashboard/updateQuestion', [superadminController::class, 'updateQuestion'])->middleware(['auth', 'verified'])->name('updateQuestion');
 Route::post('/dashboard/storeQuestion', [superadminController::class, 'storeQuestion'])->middleware(['auth', 'verified'])->name('storeQuestion');
 Route::delete('/questions/{id}', [superadminController::class, 'deleteQuestion'])->name('questions.delete');
 
-Route::get('/dashboard/viewSurvay', [superadminController::class, 'viewSurvay'])->middleware(['auth', 'verified'])->name('viewSurvay');
+Route::get('/dashboard/viewSurvey', [superadminController::class, 'viewSurvay'])->middleware(['auth', 'verified'])->name('viewSurvey');
 
 
 
-Route::get('/dashboard/viewSurvayStepOne', [superadminController::class, 'viewSurvayStepOne'])->middleware(['auth', 'verified'])->name('viewSurvayStepOne');
-Route::get('/dashboard/viewSurvayStepTwo', [superadminController::class, 'viewSurvaySteptwo'])->middleware(['auth', 'verified'])->name('viewSurvaySteptwo');
-Route::get('/dashboard/viewSurvayStepThree', [superadminController::class, 'viewSurvayStepthree'])->middleware(['auth', 'verified'])->name('viewSurvayStepthree');
-Route::get('/dashboard/viewSurvayStepFour', [superadminController::class, 'viewSurvayStepfour'])->middleware(['auth', 'verified'])->name('viewSurvayStepfour');
-Route::get('/dashboard/viewSurvayStepFive', [superadminController::class, 'viewSurvayStepfive'])->middleware(['auth', 'verified'])->name('viewSurvayStepfive');
-Route::get('/dashboard/viewSurvayStepSix', [superadminController::class, 'viewSurvayStepsix'])->middleware(['auth', 'verified'])->name('viewSurvayStepsix');
+Route::get('/dashboard/viewSurveyStepOne', [superadminController::class, 'viewSurvayStepOne'])->middleware(['auth', 'verified'])->name('viewSurveyStepOne');
+Route::get('/dashboard/viewSurveyStepTwo', [superadminController::class, 'viewSurvaySteptwo'])->middleware(['auth', 'verified'])->name('viewSurveySteptwo');
+Route::get('/dashboard/viewSurveyStepThree', [superadminController::class, 'viewSurvayStepthree'])->middleware(['auth', 'verified'])->name('viewSurveyStepthree');
+Route::get('/dashboard/viewSurveyStepFour', [superadminController::class, 'viewSurvayStepfour'])->middleware(['auth', 'verified'])->name('viewSurveyStepfour');
+Route::get('/dashboard/viewSurveyStepFive', [superadminController::class, 'viewSurvayStepfive'])->middleware(['auth', 'verified'])->name('viewSurveyStepfive');
+Route::get('/dashboard/viewSurveyStepSix', [superadminController::class, 'viewSurvayStepsix'])->middleware(['auth', 'verified'])->name('viewSurveyStepsix');
 
-Route::get('/sendSurvayInvite', [superadminController::class, 'sendSurvayInvite'])->middleware(['auth', 'verified'])->name('sendSurvayInvite');
+Route::get('/sendSurveyInvite', [superadminController::class, 'sendSurvayInvite'])->middleware(['auth', 'verified'])->name('sendSurveyInvite');
 Route::post('/assignSurvey', [superadminController::class, 'assignSurvey'])->middleware(['auth', 'verified'])->name('assignSurvey');
 
 

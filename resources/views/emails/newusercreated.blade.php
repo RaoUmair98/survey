@@ -44,20 +44,28 @@
         <div class="header">
             <img src="{{ asset('logo/logo.png') }}" alt="Company Logo">
             <h1>New User Created!</h1>
-            {{-- <p>Need to Set New Password on login</p> --}}
         </div>
 
         <!-- Content -->
-        <p style="text-align: center;"> <!-- Adjusted this line -->
+        <p>Hello {{ $user->name }},</p>
+        <p>Your account has been created successfully. Here are your login credentials:</p>
+        <ul>
+            <li><strong>Email:</strong> {{ $user->email }}</li>
+            <li><strong>Password:</strong> {{ $temporaryPassword }}</li>
+        </ul>
+        <p>Please log in to the system using the provided credentials.</p>
+
+        <hr>
+
+        <!-- Login Button -->
+        <p style="text-align: center;">
             <a href="{{url('/login')}}" style="display: inline-block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; margin: 20px; border-radius: 5px;">
                 Login
             </a>
         </p>
 
-        <hr>
-        <small>
-            If you're having trouble clicking the "Login" button, copy and paste the URL below into your web browser: (link) <!-- Adjusted this line -->
-        </small>
+        <!-- Troubleshooting -->
+        {{-- <small>If you're having trouble clicking the "Login" button, copy and paste the URL below into your web browser: {{ $loginUrl }}</small> --}}
 
         <!-- Footer -->
         <div class="footer">

@@ -42,7 +42,7 @@
                     </li>
                     <li class="inline-flex items-center sd text-sm font-semibold text-gray-800 truncate dark:text-gray-200"
                         aria-current="page">
-                        View Survay Response
+                        View Survey Response
                     </li>
                 </ol>
             </div>

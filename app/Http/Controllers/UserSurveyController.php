@@ -13,9 +13,12 @@ class UserSurveyController extends Controller
 {
     public function index(Request $request)
     {
-        // dd($request->all());
-        $user = User::find($request->userId);
-        $survey = Survey::find($request->surveyId);
+        $user = auth()->user();
+        $surveys = Survey::where('user_id', $user->id)->get();
+        foreach ($surveys as $survey) {
+                
+        }
+
         $questions = Question::where('survey_id', $request->surveyId)->get();
         $parts = $questions->unique('part')->pluck('part','partTitle')->toArray();
         $userSurveyResponse = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->userId)->get();

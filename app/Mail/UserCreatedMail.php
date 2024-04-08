@@ -15,12 +15,16 @@ class UserCreatedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user;
+    public $temporaryPassword;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($user, $temporaryPassword)
     {
-        //
+        $this->user = $user;
+        $this->temporaryPassword = $temporaryPassword;
     }
 
     /**
@@ -43,6 +47,13 @@ class UserCreatedMail extends Mailable
             view: 'emails.newusercreated',
         );
     }
+
+
+    public function build()
+    {
+        return $this->content();
+    }
+
 
     /**
      * Get the attachments for the message.
