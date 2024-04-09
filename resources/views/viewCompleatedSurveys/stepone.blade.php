@@ -158,7 +158,7 @@
                                             <input
                                                 class="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                                 name="answer[{{ $question->id }}]"
-                                                value="{{ $userSurveyResponse->where('question_id', $question->id)->first()->response }}"
+                                                value="{{ optional($userSurveyResponse->where('question_id', $question->id)->first()->response) }}"
                                                 readonly />
                                         </div>
                                     </div>

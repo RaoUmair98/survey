@@ -15,31 +15,31 @@ class UserSurveyController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-$user_surveys = UserSurvay::where('user_id', $user->id)->get();
+        $user_surveys = UserSurvay::where('user_id', $user->id)->get();
 
-$surveys = Survey::whereIn('id', $user_surveys->pluck('survey_id'))->get();
+        $surveys = Survey::whereIn('id', $user_surveys->pluck('survey_id'))->get();
 
-$category_ids = $surveys->pluck('category_id')->unique();
-$categories = SurveyCategory::whereIn('id', $category_ids)->get();
+        $category_ids = $surveys->pluck('category_id')->unique();
+        $categories = SurveyCategory::whereIn('id', $category_ids)->get();
 
-// Now, let's prepare the data for the view
-$survey_data = $surveys->map(function ($survey) use ($categories) {
-    $category = $categories->where('id', $survey->category_id)->first();
-    return [
-        'id' => $survey->id,
-        'title' => $survey->title,
-        'status' => $survey->status,
-        'end_date' => $survey->end_date,
-        'category_name' => $category ? $category->name : null,
-    ];
-});
+        // Now, let's prepare the data for the view
+        $survey_data = $surveys->map(function ($survey) use ($categories) {
+        $category = $categories->where('id', $survey->category_id)->first();
+        return [
+            'id' => $survey->id,
+            'title' => $survey->title,
+            'status' => $survey->status,
+            'end_date' => $survey->end_date,
+            'category_name' => $category ? $category->name : null,
+        ];
+        });
 
-// dd($survey_data);
-$questions = Question::where('survey_id', $request->surveyId)->get();
-$parts = $questions->unique('part')->pluck('part','partTitle')->toArray();
-$userSurveyResponse = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->userId)->get();
+        // dd($survey_data);
+        $questions = Question::where('survey_id', $request->surveyId)->get();
+        $parts = $questions->unique('part')->pluck('part','partTitle')->toArray();
+        $userSurveyResponse = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->userId)->get();
 
-return view('viewCompleatedSurveys.stepone', compact('survey_data', 'questions', 'userSurveyResponse', 'parts'));
+        return view('viewCompleatedSurveys.stepone', compact('survey_data', 'questions', 'userSurveyResponse', 'parts'));
 
     }
 }

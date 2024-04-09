@@ -14,11 +14,11 @@
 
     <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            {{-- <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                    Hi, {{Auth::user()->name}} {{ __("You're logged in!") }}
                 </div>
-            </div> --}}
+            </div>
             @if (session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
                     role="alert">
@@ -146,9 +146,6 @@
                                         </clipPath>
                                     </defs>
                                 </svg>
-
-
-
                             </div>
                         </div>
                         <div class="dash_box w-[100%] d4 bg-[#0081CA] shadow-xl">
