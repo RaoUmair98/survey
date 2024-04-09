@@ -25,12 +25,12 @@ class superadminController extends Controller
 {
     public function index(Request $request)
     {
-        // $usersWith100Percentage = User::where('role_id', '>', 3)
-        // ->join('user_surveys', 'users.id', '=', 'user_survays.user_id')
-        // ->where('user_surveys.percentage', '=', 100)
-        // ->get();
+            // $usersWith100Percentage = User::where('role_id', '>', 3)
+            // ->join('user_surveys', 'users.id', '=', 'user_survays.user_id')
+            // ->where('user_surveys.percentage', '=', 100)
+            // ->get();
 
-        // dd($usersWith100Percentage);
+            // dd($usersWith100Percentage);
 
         $allUsers = User::where('role_id', '>', 3)->get();
         return view('superAdmin.dashboard', compact(['allUsers']));
