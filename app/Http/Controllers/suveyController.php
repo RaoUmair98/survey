@@ -13,8 +13,12 @@ class suveyController extends Controller
 {
     public function index(Request $request)
     {
-
         $survey = Survey::findOrfail($request->surveyId);
+        $user_survey = UserSurvay::where('survey_id', $survey->id)->get();
+        foreach ($user_survey as $survey){
+
+            $percentage = $survey->percentCompleted == 100;
+        }
         return view('userSurvey.stepzero', compact(['survey']));
     }
 
