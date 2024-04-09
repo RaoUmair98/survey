@@ -8,7 +8,7 @@
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
                     <li class="inline-flex items-center">
                         <a class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:focus:text-blue-500"
-                            href="#">
+                        href="{{ route('dashboard') }}">
                             Your Survey
                         </a>
                         <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600"
@@ -18,18 +18,20 @@
                             <path d="m9 18 6-6-6-6" />
                         </svg>
                     </li>
+                    @foreach ($survey_data as $survey)
                     <li class="inline-flex items-center">
                         <a class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:focus:text-blue-500"
-                            href="{{ route('allSurvey') }}">
-                            {{ $survey->title }}
+                            href="{{ route('dashboard') }}">
+                            {{  $survey['title'] }}
                             <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path d="m9 18 6-6-6-6" />
                             </svg>
-                        </a>
+                        </a>    
                     </li>
+                    @endforeach
                     <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate dark:text-gray-200"
                         aria-current="page">
                         Completed Survey
@@ -37,7 +39,7 @@
                 </ol>
             </div>
             <div>
-                <a href="{{ route('allSurvey') }}"
+                <a href="{{ route('dashboard') }}"
                     class="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                         fill="currentColor">
@@ -97,21 +99,23 @@
                             </div>
                         </div>
                     @endif
-
-                    <h1 class="text-2xl font-bold mb-4 mt-6 text-center">{{ $survey->title }}</h1>
+                    @foreach ($survey_data as $survey)
+                        <h1 class="text-2xl font-bold mb-4 mt-6 text-center">{{ $survey['title'] }}</h1>
                     <div class="flex items-center text-sm text-gray-500 mb-2 mx-4 justify-between">
                         <div>
-                            <span class="mr-2">End Date: {{ $survey->end_date }}</span>
+                            <span class="mr-2">End Date: {{ $survey['end_date'] }}</span>
                             <span>Status: <span
-                                    class="uppercase font-bold {{ $survey->status === 'active' ? 'text-green-500' : 'text-red-500' }}">{{ $survey->status }}</span></span>
+                                    class="uppercase font-bold {{ $survey['status'] === 'active' ? 'text-green-500' : 'text-red-500' }}">{{ $survey['status'] }}</span></span>
 
                         </div>
                         <div>
-                            <span class="mr-2">Category: {{ $survey->category->name }}</span>
-                            <span>Created by: {{ $survey->creator->name }}</span>
+                            <span class="mr-2">Category: {{ $survey['category_name'] }}</span>
+                            {{-- <span>Created by: {{ $survey->creator->name }}</span> --}}
                         </div>
 
                     </div>
+                    @endforeach
+
                     @foreach ($parts as $key => $part)
                         <h2 class="text-xl font-bold mb-4 mx-4">
                             {{ $part }}: {{ $key }}
@@ -172,8 +176,9 @@
                     @endforeach
 
                     {{-- button --}}
-
-                    <input type="hidden" name="surveyId" value="{{ $survey->id }}">
+                    @foreach ($survey_data as $survey)
+                        <input type="hidden" name="surveyId" value="{{ $survey['id'] }}">
+                    @endforeach
                     <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
                     <div class="flex justify-end my-6 mx-4 gap-x-1">
                         <a href="{{ route('dashboard') }}"

@@ -91,7 +91,7 @@ Route::get('/survey/{manager}/{manager_id}/employee_progress', [DirectorSurveyCo
     ->middleware(['auth', 'verified', 'role:director'])
     ->name('director.employee_progress');
 
-Route::get('/survey/view_completed', [UserSurveyController::class, 'index'])
+Route::post('/survey/view_completed', [UserSurveyController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('survey.view_completed');
 
