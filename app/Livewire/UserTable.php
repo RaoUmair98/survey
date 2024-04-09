@@ -124,7 +124,7 @@ final class UserTable extends PowerGridComponent
     #[\Livewire\Attributes\On('email')]
     public function email($rowId)
     {
-        return redirect()->route('sendSureyInvite', ['userId' => $rowId]);
+        return redirect()->route('sendSurveyInvite', ['userId' => $rowId]);
     }
 
     public function actions(User $row): array

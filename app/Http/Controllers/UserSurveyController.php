@@ -16,6 +16,8 @@ class UserSurveyController extends Controller
         $user = auth()->user();
         $surveys = Survey::where('user_id', $user->id)->get();
         foreach ($surveys as $survey) {
+
+            
                 
         }
 

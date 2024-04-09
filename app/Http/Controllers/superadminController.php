@@ -67,7 +67,6 @@ class superadminController extends Controller
                 $title = Survey::where('id', $surveyId)->value('title');
             }
        
-             //  dd($usersurveys);
          } else {
             /** @var \App\User $user */
             $user =  Auth::user();
