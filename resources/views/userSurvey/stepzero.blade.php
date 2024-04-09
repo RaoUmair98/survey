@@ -206,7 +206,7 @@
                         {{-- <a href="" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled">
                             Previous
                         </a> --}}
-                        <form action="{{route('survey.view_compleated')}}" method="POST">
+                        <form action="{{route('survey.view_completed')}}" method="POST">
                             @csrf
                             <input type="hidden" name="surveyId" value="{{$survey->id}}">
                             <input type="hidden" name="userId" value="{{Auth::user()->id}}">
