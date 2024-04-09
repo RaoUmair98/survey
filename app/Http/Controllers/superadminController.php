@@ -25,12 +25,6 @@ class superadminController extends Controller
 {
     public function index(Request $request)
     {
-            // $usersWith100Percentage = User::where('role_id', '>', 3)
-            // ->join('user_surveys', 'users.id', '=', 'user_survays.user_id')
-            // ->where('user_surveys.percentage', '=', 100)
-            // ->get();
-
-            // dd($usersWith100Percentage);
 
         $allUsers = User::where('role_id', '>', 3)->get();
         return view('superAdmin.dashboard', compact(['allUsers']));
@@ -38,10 +32,16 @@ class superadminController extends Controller
 
     public function getCompletedSurvey()
     {
-        $allUsers = User::where('role_id', '>', 3)->get();
-        $ids = $allUsers->pluck('id');
-        $userSurvey = UserSurvay::where('user_id', $ids)->get();
-        dd($userSurvey);
+        $usersWith100Percentage = User::where('role_id', '>', 3)
+        ->leftJoin('user_survays', 'users.id', '=', 'user_survays.user_id')
+        ->leftJoin('manager_survays', 'users.id', '=', 'manager_survays.user_id')
+        ->where(function ($query) {
+            $query->where('user_survays.percentCompleted', '=', 100)
+                ->orWhere('manager_survays.percentCompleted', '=', 100);
+        })
+        ->select('users.*')
+        ->distinct()
+        ->get();
 
     }
 
