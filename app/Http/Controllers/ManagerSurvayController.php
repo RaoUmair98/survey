@@ -45,6 +45,7 @@ class ManagerSurvayController extends Controller
         $survey = Survey::findOrfail($request->surveyId);
         $part = "Part II";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
+        $question = $questions->pluck('id')->toArray(); 
         return view('managerSurvey.stepone', compact(['user_id', 'survey', 'part', 'questions', 'surveyResponses', 'surveyUser', 'managers']));
     }
 

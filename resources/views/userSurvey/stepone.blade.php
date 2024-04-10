@@ -31,7 +31,9 @@
                     <li class="inline-flex items-center sd">
                         <a class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:focus:text-blue-500"
                             href="{{ route('dashboard') }}">
-                            {{ $survey->title }}
+                            @foreach ($survey_title as $title )
+                                {{ $title }}
+                            @endforeach
                             <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -107,17 +109,28 @@
                             </div>
                         </div>
                     @endif
-                    <h1 class="text-2xl font-bold mb-4 mt-6 text-center">{{ $survey->title }}</h1>
+                    @foreach ($survey_title as $title )
+                        <h1 class="text-2xl font-bold mb-4 mt-6 text-center">{{ $title }}</h1>
+                    @endforeach
+
                     <div class="flex items-center text-sm text-gray-500 mb-2 mx-4 justify-between">
                         <div>
-                            <span class="mr-2">End Date: {{ $survey->end_date }}</span>
+                            @foreach ($survey_end_date as $end_date )
+                                <span class="mr-2">End Date: {{ $end_date }}</span>
+                            @endforeach
                             <span>Status: <span
-                                    class="uppercase font-bold {{ $survey->status === 'active' ? 'text-green-500' : 'text-red-500' }}">{{ $survey->status }}</span></span>
+                                @foreach ($survey_status as $status)
+                                    
+                                @endforeach
+                                    class="uppercase font-bold {{ $status === 'active' ? 'text-green-500' : 'text-red-500' }}">{{ $status }}</span></span>
 
                         </div>
+
                         <div>
-                            <span class="mr-2">Category: {{ $survey->category->name }}</span>
-                            <span>Created by: {{ $survey->creator->name }}</span>
+                            @foreach ($category_name as $name)
+                                <span class="mr-2">Category: {{ $name }}</span>
+                            @endforeach
+                            {{-- <span>Created by: {{ $survey->creator->name }}</span> --}}
                         </div>
 
                     </div>
@@ -157,19 +170,31 @@
 
                                 <!-- Third column with 3/12 width -->
 
-                                <div class="col-span-2 bg-gray-200 p-2">
+                                @if($get_surveys && isset($get_surveys->where('question_id', $question->id)->first()->response) && $get_surveys->where('question_id', $question->id)->first()->response != '')
                                     <div class="col-span-2 bg-gray-200 p-2">
-                                        <select
-                                            class="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                            name="answer[{{$question->id}}]" required>
-                                            <option value="" selected>Select</option>
-                                            <option value="EE">EE</option>
-                                            <option value="ME">ME</option>
-                                            <option value="TR">TR</option>
-                                            <option value="FD">FD</option>
-                                        </select>
+                                        <div class="col-span-2 bg-gray-200 p-2">
+                                            <input
+                                                class="block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-slate-300"
+                                                value="{{ $get_surveys->where('question_id', $question->id)->first()->response ?? ''}}"
+                                            >
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="col-span-2 bg-gray-200 p-2">
+                                        <div class="col-span-2 bg-gray-200 p-2">
+                                            <select
+                                                class="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                                name="answer[{{$question->id}}]" required>
+                                                <option value="" selected>Select</option>
+                                                <option value="EE">EE</option>
+                                                <option value="ME">ME</option>
+                                                <option value="TR">TR</option>
+                                                <option value="FD">FD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <!-- Fourth column with 3/12 width -->
                                 <div class="col-span-2 bg-gray-200 p-2">
                                     <div class="col-span-2 bg-gray-200 p-2">
@@ -189,9 +214,15 @@
                       
                         {{-- button --}}
 
-                        <input type="hidden" name="surveyId" value="{{ $survey->id }}">
+                        @foreach ($survey_id as $id)
+                            <input type="hidden" name="surveyId" value="{{ $id }}">
+                        @endforeach
                         <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
                         <div class="flex justify-end my-6 mx-4 gap-x-1">
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Save
+                            </button>
                             <button type="submit"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Next Part III

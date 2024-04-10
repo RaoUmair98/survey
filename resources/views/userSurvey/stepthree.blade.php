@@ -165,8 +165,8 @@
 
                                         <!-- Third column with 3/12 width -->
                                         <div class="col-span-4 bg-gray-200 p-2">
-                                            <input type="text" name="answer[{{ $question->id }}]"
-                                                class="w-full py-2 px-3 rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            <input type="text" name="answer[{{$question->id}}]" value="{{ $get_surveys->where('question_id', $question->id)->first()->response ?? '' }}"
+                                            class="w-full py-2 px-3 rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                 placeholder="Enter your answer here" required>
                                         </div>
 

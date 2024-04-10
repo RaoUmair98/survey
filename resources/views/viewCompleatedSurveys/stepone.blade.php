@@ -116,6 +116,8 @@
                     </div>
                     @endforeach
 
+                    <form action="{{ route('surveyOne') }}" method="POST" id="partIForm">
+
                     @foreach ($parts as $key => $part)
                         <h2 class="text-xl font-bold mb-4 mx-4">
                             {{ $part }}: {{ $key }}
@@ -187,6 +189,8 @@
                         </a>
 
                     </div>
+
+                </form>
 
                 </div>
             </div>

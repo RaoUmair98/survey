@@ -132,6 +132,8 @@ Route::get('/dashboard/viewSurveyStepSix', [superadminController::class, 'viewSu
 
 Route::get('/sendSurveyInvite', [superadminController::class, 'sendSurvayInvite'])->middleware(['auth', 'verified'])->name('sendSurveyInvite');
 Route::post('/assignSurvey', [superadminController::class, 'assignSurvey'])->middleware(['auth', 'verified'])->name('assignSurvey');
+Route::delete('/surveys/{surveyId}', [superadminController::class, 'delete'])
+    ->name('deleteSurvey');
 
 
 Route::view('profile', 'profile')

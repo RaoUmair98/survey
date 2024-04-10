@@ -68,7 +68,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-100 text-sm">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="p-6 space-y-2 bg-gray-100 text-gray-800">
-                        @if(!Auth::user()->userSurveys->where('survey_id',$survey->id)->first()->percentCompleted == 100)
+                        @if(!$percentage)
                         <h3 class="text-base font-semibold">Part I: Instructions</h3>
 
                         <div class="flex gap-3">
@@ -82,7 +82,7 @@
                         @else
                         <h3 class="text-base font-semibold">Survey completed successfully</h3>
 
-                        <div class="flex gap-3">
+                        <div class="flex gap-3">    
                             <span class="w-12 h-2 rounded-sm bg-blue-600"></span>
                             <span class="w-12 h-2 rounded-sm bg-blue-600"></span>
                             <span class="w-12 h-2 rounded-sm bg-blue-600"></span>
@@ -136,7 +136,7 @@
                     <h1 class="text-2xl font-bold mb-4 mt-8 text-center">{{ $survey->title }}</h1>
 
 
-                    @if(!Auth::user()->userSurveys->where('survey_id',$survey->id)->first()->percentCompleted == 100)
+                    @if(!$percentage)
                         <div class="flex items-center text-sm text-gray-500 mb-2 mx-4 justify-between">
                             <div>
                                 <span class="mr-2">End Date: {{ $survey->end_date }}</span>
@@ -145,8 +145,10 @@
 
                             </div>
                             <div>
-                                <span class="mr-2">Category: {{ $survey->category->name }}</span>
-                                <span>Created by: {{ $survey->creator->name }}</span>
+                                @foreach ($category_name as $name)
+                                    <span class="mr-2"> Category: {{ $name }}</span>
+                                @endforeach
+                                                            {{-- <span>Created by: {{ $survey->creator->name }}</span> --}}
                             </div>
                         </div>
                         
@@ -156,7 +158,7 @@
                         <div class="overflow-x-auto mx-4">
                             <table class="table-auto border-collapse">
                                 <tbody>
-                                    @foreach ($survey->evaluation as $scale)
+                                    @foreach ($evaluation as $scale)
                                         <tr class="border">
                                             <td class="border px-4 py-2 font-extrabold">{{ $scale->abbreviation }}</td>
                                             <td class="border px-4 py-2 font-bold">{{ $scale->fullForm }}</td>
@@ -197,8 +199,10 @@
 
                             </div>
                             <div>
-                                <span class="mr-2">Category: {{ $survey->category->name }}</span>
-                                <span>Created by: {{ $survey->creator->name }}</span>
+                                @foreach ($category_name as $name)
+                                    <span class="mr-2"> Category: {{ $name }}</span>
+                                @endforeach
+                                {{-- <span>Created by: {{ $survey->creator->name }}</span> --}}
                             </div>
                         </div>
                     {{-- button --}}

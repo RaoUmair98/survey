@@ -16,9 +16,8 @@ class UserSurveyController extends Controller
     {
         $user = auth()->user();
         $user_surveys = UserSurvay::where('user_id', $user->id)->get();
-
         $surveys = Survey::whereIn('id', $user_surveys->pluck('survey_id'))->get();
-
+        $survey_id = $surveys->pluck('id')->toArray(); 
         $category_ids = $surveys->pluck('category_id')->unique();
         $categories = SurveyCategory::whereIn('id', $category_ids)->get();
 
@@ -26,18 +25,18 @@ class UserSurveyController extends Controller
         $survey_data = $surveys->map(function ($survey) use ($categories) {
         $category = $categories->where('id', $survey->category_id)->first();
         return [
-            'id' => $survey->id,
-            'title' => $survey->title,
-            'status' => $survey->status,
-            'end_date' => $survey->end_date,
-            'category_name' => $category ? $category->name : null,
-        ];
+                'id' => $survey->id,
+                'title' => $survey->title,
+                'status' => $survey->status,
+                'end_date' => $survey->end_date,
+                'category_name' => $category ? $category->name : null,
+             ];
         });
 
         // dd($survey_data);
-        $questions = Question::where('survey_id', $request->surveyId)->get();
+        $questions = Question::where('survey_id', $survey_id)->get();
         $parts = $questions->unique('part')->pluck('part','partTitle')->toArray();
-        $userSurveyResponse = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->userId)->get();
+        $userSurveyResponse = SurveyResponse::where('survey_id', $survey_id)->where('user_id', $request->userId)->get();
 
         return view('viewCompleatedSurveys.stepone', compact('survey_data', 'questions', 'userSurveyResponse', 'parts'));
 

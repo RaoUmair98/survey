@@ -108,53 +108,85 @@
             @endif
             <div class="max-w-full w-full rounded overflow-hidden shadow-lg bg-white mb-4">
                 <div class="px-6 py-4">
-                    {{-- @php
-                        print_r($user->userSurveys)
-                    @endphp --}}
-                    <h1 class="mb-2 mx-4">Surveys Alrady Assigned</h1>
+                    <h1 class="mb-2 mx-4">Surveys Already Assigned</h1>
                     <div class="grid grid-cols-12 gap-1 mb-2 mx-4">
                         <!-- First column with 1/12 width -->
                         <div class="col-span-2 bg-blue-200 p-2 text-center">
                             S. No.
                         </div>
-
+            
                         <!-- Second column with 5/12 width -->
                         <div class="col-span-6 bg-blue-200 p-2">
                             Survey Name
                         </div>
-
+            
                         <!-- Second column with 5/12 width -->
                         <div class="col-span-4 bg-blue-200 p-2">
                             Send Reminder
                         </div>
                     </div>
+            
                     {{-- Surveys --}}
-                    @foreach ($user->userSurveys as $s)
+                    @if (!$user)
+                        {{-- Display all surveys --}}
+                        @foreach ($surveys as $survey)
+                            <div class="grid grid-cols-12 gap-1 mb-2 mx-4">
+                                <!-- First column with 1/12 width -->
+                                {{-- <div class="col-span-2 bg-gray-200 p-2 text-center">
+                                    {{ $loop->iteration }}
+                                </div> --}}
+            
+                                <!-- Second column with 5/12 width -->
+                                <div class="col-span-6 bg-gray-200 p-2">
+                                    {{ $survey->title }}
+                                </div>
+            
+                                <!-- Third column with 4/12 width -->
+                                <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
+                                    <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                        Send Reminder
+                                    </button>
+                                    <form action="{{ route('deleteSurvey', ['surveyId' => $survey->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this survey?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        {{-- Display assigned surveys --}}
+                       
                         <div class="grid grid-cols-12 gap-1 mb-2 mx-4">
                             <!-- First column with 1/12 width -->
-                            <div class="col-span-2 bg-gray-200 p-2 text-center">
-                                {{ $s->id }}
-                            </div>
-
+                            {{-- <div class="col-span-2 bg-gray-200 p-2 text-center">
+                                {{ $loop->iteration }}
+                            </div> --}}
+                            
                             <!-- Second column with 5/12 width -->
                             <div class="col-span-6 bg-gray-200 p-2">
-                                {{ $s->survey->title }}
+                                @foreach ($surveys as $survey)
+                                    {{ $survey->title }}
+                                @endforeach
                             </div>
-
-                            <!-- Second column with 5/12 width -->
+        
+                            <!-- Third column with 4/12 width -->
                             <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
-                                <button
-                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                     Send Reminder
                                 </button>
-                                <button
-                                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                    Delete
-                                </button>
+                                <form action="{{ route('deleteSurvey', ['surveyId' => $user->id]) }}" method="POST" onsubmit="confirm('Are you sure you want to delete this survey?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                        Delete
+                                    </button>
+                                </form>
                             </div>
-
                         </div>
-                    @endforeach
+                    @endif
                 </div>
             </div>
             <div class="max-w-full w-full rounded overflow-hidden shadow-lg bg-white">
@@ -167,8 +199,9 @@
                                     Employe Name
                                 </label>
                                 <input id="input-field"
-                                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    type="text" value="{{ $user->name }}" readonly>
+                                class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                type="text" value="{{ $user->name }}" readonly>    
+                            
                             </div>
                             <div class="w-2/3 ml-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="select-option">

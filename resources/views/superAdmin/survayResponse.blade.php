@@ -116,7 +116,11 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($usersurveys as $usersurvey)
+                            @if($usersurveys === null)
+                                <p>User not found</p>
+                            @else
+
+                                @foreach ($usersurveys as $usersurvey)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $usersurvey->id }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $name }}</td>
@@ -176,15 +180,14 @@
                                         @endif
                                     </td>
                                 </tr>
-                            @endforeach
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
 
 
                 </div>
             </div>
-
-
         </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-2">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-100 text-sm">

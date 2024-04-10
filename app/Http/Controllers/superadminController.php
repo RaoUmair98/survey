@@ -72,7 +72,8 @@ class superadminController extends Controller
     public function responseSurvay(Request $request)
     {
         $role_id = Auth::user()->role->id;
-      
+
+        
         if ($role_id == 1) {
              $usersurveys = UserSurvay::paginate(10);
 
@@ -88,7 +89,14 @@ class superadminController extends Controller
             $user =  Auth::user();
             $name = User::where('id', $user->id)->value('name');
             $subordinates = $user->subordinates()->pluck('id')->toArray();
+            
+            $usersurveys = '';
+            $name = ''; // Initialize name variable
+            $title = ''; // Initialize title variable
+
+
             $usersurveys = UserSurvay::whereIn('user_id', $subordinates)->paginate(10);
+
             foreach ($usersurveys as $survey) {
                 $userId = $survey->user_id;
                 $surveyId = $survey->survey_id;
@@ -295,22 +303,35 @@ class superadminController extends Controller
 
     public function sendSurvayInvite(Request $request)
     {
-        $user = User::findOrFail($request->userId);
+        $user = User::where('id', $request->userId)->first();
+        // Retrieve the IDs of surveys already assigned to the user
+        $assigned_survey_ids = $user->userSurveys->pluck('survey_id')->toArray();
+
         $surveys = Survey::all();
-        
-        // Check if the user's invite has already been sent
-        if ($user->inviteSend) {
-            // Send a survey reminder email
-            Mail::to($user)->send(new SurvayReminderMail());
-            
-            // Redirect back to the user management page with a success message
-            return redirect()->route('UserManagement', ['role_id' => 1])
-                             ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
+       
+        // If no surveys are assigned, retrieve all surveys
+        if (empty($assigned_survey_ids)) {
+            $other_surveys = Survey::all();
+           
+        } else {
+            // Retrieve surveys that are not assigned to the user
+            $other_surveys = Survey::whereNotIn('id', $assigned_survey_ids)->get();
         }
+
+        return view('superAdmin.assignSurvey', compact('user', 'surveys', 'other_surveys'));
+    
+        // Check if the user's invite has already been sent
+        // if ($user->inviteSend) {
+        //     // Send a survey reminder email
+        //     Mail::to($user)->send(new SurvayReminderMail());
+            
+        //     // Redirect back to the user management page with a success message
+        //     return redirect()->route('UserManagement', ['role_id' => 1])
+        //                      ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
+        // }
     
         // If the user's invite has not been sent yet, return the view to assign a survey
-        return view('superAdmin.assignSurvey', compact('user', 'surveys'));
-    
+       
         // $response = Password::sendResetLink(["email" => $user->email]);
         // Log::info(['$response' => $response ]);
 
@@ -320,6 +341,21 @@ class superadminController extends Controller
         // } else {
         //     return redirect()->route('UserManagement', ['role_id' => 1])->with('error_message', 'Unable to send  link');
         // }
+    }
+
+
+    public function delete($surveyId)
+    {
+        // dd($surveyId);
+        // Find the survey by ID
+        $surveys = UserSurvay::where('id', $surveyId)->get();
+
+        foreach ($surveys as $survey) {
+            $survey->delete();
+        }
+
+        // Redirect back or return a response as needed
+        return view('superAdmin.assignSurvey')->with('success_message', 'Survey deleted successfully.');
     }
 
     public function assignSurvey(Request $request)

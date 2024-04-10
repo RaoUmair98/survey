@@ -162,8 +162,10 @@
                                         </div>
 
                                         <!-- Third column with 3/12 width -->
-                                        <div class="col-span-4 bg-gray-200 p-2"></div>
-
+                                        <div class="col-span-4 bg-gray-200 p-2">
+                                            {{ $get_surveys->where('question_id', $question->id)->first()->response ?? '' }}
+                                            </div>
+    
                                        
                                     </div>
                                 @endif
