@@ -63,7 +63,6 @@
     </x-slot>
 
     <div class="py-12">
-
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-100 text-sm">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -148,7 +147,8 @@
                                 @foreach ($category_name as $name)
                                     <span class="mr-2"> Category: {{ $name }}</span>
                                 @endforeach
-                                                            {{-- <span>Created by: {{ $survey->creator->name }}</span> --}}
+                                                            
+                                {{-- <span>Created by: {{ $survey->creator->name }}</span> --}}
                             </div>
                         </div>
                         

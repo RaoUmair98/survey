@@ -20,14 +20,16 @@ class suveyController extends Controller
         $category_name = $category->pluck('name')->toArray();
         $evaluation = Evaluation::where('survey_id', $survey->id)->get();
         $user_survey = UserSurvay::where('survey_id', $survey->id)->get();
-        foreach ($user_survey as $survey){
-            $percentage = $survey->percentCompleted == 100;
+
+        foreach ($user_survey as $surveys){
+            $percentage = $surveys->percentCompleted == 100;
         }
         return view('userSurvey.stepzero', compact(['survey', 'percentage', 'category_name', 'evaluation']));
     }
 
         public function stepOne(Request $request)
-        { 
+        {
+            
             //Mark Survey Started at User Model
             $user = User::find($request->userId)->update(['isSurveyStarted' => true]);
 
@@ -37,10 +39,11 @@ class suveyController extends Controller
             $update_survey = User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first();
             if(!$update_survey === null){
                 User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()->update(['percentCompleted' => 0]);
+            
             }
             else{
 
-                $user_survey = UserSurvay::where('id', $request->surveyId)->get();
+                $user_survey = UserSurvay::where('survey_id', $request->surveyId)->get();
                 $survey_id = $user_survey->pluck('survey_id')->toArray();
                 $survey = Survey::where('id', $survey_id)->get();
                 $survey_title = $survey->pluck('title')->toArray();
@@ -53,7 +56,7 @@ class suveyController extends Controller
                 $questions = Question::where('survey_id', $survey_id)->where('part', $part)->get();
 
             }
-            
+
             return view('userSurvey.stepone', compact(['get_surveys','survey', 'part', 'questions', 'survey_title', 'survey_end_date', 'survey_status', 'category_name', 'survey_id']));
         }
 

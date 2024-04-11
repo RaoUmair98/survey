@@ -165,7 +165,7 @@
                                         <div class="col-span-2 bg-gray-200 p-2">
                                             <input
                                                 class="block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-slate-300"
-                                                value="{{ $surveyResponses->where('question_id', $question->id)->first()->response }}"
+                                                value="{{ $surveyResponses->where('question_id', $question->id)->first()->response ?? '' }}"
                                                 readonly>
 
                                         </div>

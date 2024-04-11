@@ -123,7 +123,6 @@
                                     
                                 @endforeach
                                     class="uppercase font-bold {{ $status === 'active' ? 'text-green-500' : 'text-red-500' }}">{{ $status }}</span></span>
-
                         </div>
 
                         <div>

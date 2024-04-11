@@ -164,7 +164,17 @@
                         {{-- <a href="" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled">
                             Previous
                         </a> --}}
+
                         <form action="{{route('manager.surveyOne')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="surveyId" value="{{ $survey->id }}">
+                            <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="SurveyuserId" value="{{ $surveyUser->id }}">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Start Manager Survey</button>
+                        </form>
+
+
+                        {{-- <form action="{{route('manager.surveyOne')}}" method="POST">
                             @csrf
                             <input type="hidden" name="surveyId" value="{{ $survey->id }}">
                             <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
@@ -177,7 +187,9 @@
                                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                     type="button" disabled>{{ $surveyUser->name }} has not completed survey</button>
                             @endif
-                        </form>
+                        </form> --}}
+
+
                         {{-- <a href="{{ route('viewSurvaySteptwo', ['Id' => $survey->id, 'part' => 'Part II']) }}"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                            Start Survey

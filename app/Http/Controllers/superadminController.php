@@ -73,7 +73,6 @@ class superadminController extends Controller
     {
         $role_id = Auth::user()->role->id;
 
-        
         if ($role_id == 1) {
              $usersurveys = UserSurvay::paginate(10);
 
@@ -307,8 +306,21 @@ class superadminController extends Controller
         // Retrieve the IDs of surveys already assigned to the user
         $assigned_survey_ids = $user->userSurveys->pluck('survey_id')->toArray();
 
-        $surveys = Survey::all();
-       
+        $surveys = Survey::whereIn('id', $assigned_survey_ids)->get();
+
+        $percent = UserSurvay::where('user_id', $user->id)->get();
+        $percentCompleted = $percent->pluck('percentCompleted')->toArray();
+
+        // Check if the user's invite has already been sent
+        if ($percentCompleted[0] > 0 && $percentCompleted[0] < 100) {
+            // Send a survey reminder email
+            Mail::to($user->email)->send(new SurvayReminderMail());
+            
+            // Redirect back to the user management page with a success message
+            return redirect()->route('UserManagement', ['role_id' => 1])
+                             ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
+        }
+
         // If no surveys are assigned, retrieve all surveys
         if (empty($assigned_survey_ids)) {
             $other_surveys = Survey::all();
@@ -316,9 +328,10 @@ class superadminController extends Controller
         } else {
             // Retrieve surveys that are not assigned to the user
             $other_surveys = Survey::whereNotIn('id', $assigned_survey_ids)->get();
+            
         }
 
-        return view('superAdmin.assignSurvey', compact('user', 'surveys', 'other_surveys'));
+        return view('superAdmin.assignSurvey', compact('user', 'surveys', 'other_surveys', 'percentCompleted'));
     
         // Check if the user's invite has already been sent
         // if ($user->inviteSend) {
@@ -346,24 +359,23 @@ class superadminController extends Controller
 
     public function delete($surveyId)
     {
-        // dd($surveyId);
         // Find the survey by ID
-        $surveys = UserSurvay::where('id', $surveyId)->get();
 
-        foreach ($surveys as $survey) {
-            $survey->delete();
-        }
+        $survey = UserSurvay::where('user_id', $surveyId)->get();
+        // Delete the survey
+        $survey->each-> delete();
 
-        // Redirect back or return a response as needed
-        return view('superAdmin.assignSurvey')->with('success_message', 'Survey deleted successfully.');
+        // Redirect to the dashboard with a success message
+        return redirect()->route('sendSurveyInvite', ['userId' => $surveyId])->with('success_message', 'Survey deleted successfully.');
     }
+
 
     public function assignSurvey(Request $request)
     {
         // dd($request->all());
         $user = $request->user();
 
-        $survey = Survey::where('user_id', $user->id)->get();
+        $survey = Survey::where('user_id', $user->id)->get();   
        
         try {
             // Assigning survey to the user

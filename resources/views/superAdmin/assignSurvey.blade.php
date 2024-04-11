@@ -129,24 +129,58 @@
                     {{-- Surveys --}}
                     @if (!$user)
                         {{-- Display all surveys --}}
-                        @foreach ($surveys as $survey)
+                        @foreach ($assigned_survey_ids as $survey)
                             <div class="grid grid-cols-12 gap-1 mb-2 mx-4">
                                 <!-- First column with 1/12 width -->
-                                {{-- <div class="col-span-2 bg-gray-200 p-2 text-center">
-                                    {{ $loop->iteration }}
-                                </div> --}}
+                                <div class="mt-5 col-span-2 bg-gray-200 px-4 py-2 text-center">
+                                    {{ $survey->id }}
+                                </div>
             
                                 <!-- Second column with 5/12 width -->
-                                <div class="col-span-6 bg-gray-200 p-2">
+                                <div class="mt-5 col-span-6 bg-gray-200 px-4 py-2">
                                     {{ $survey->title }}
                                 </div>
             
                                 <!-- Third column with 4/12 width -->
                                 <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
-                                    <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                        Send Reminder
-                                    </button>
-                                    <form action="{{ route('deleteSurvey', ['surveyId' => $survey->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this survey?')">
+                                    @if($percentCompleted[0] > 0 && $percentCompleted[0] < 100)
+                                        <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                            Send Reminder
+                                        </button>
+                                    @endif  
+                                    <form style="margin :0 !important;" action="{{ route('deleteSurvey', ['surveyId' => $survey->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this survey?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                            Delete
+                                        </button>
+                                    </form>                                    
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        {{-- Display assigned surveys --}}
+                        @foreach ($surveys as $survey)
+
+                            <div class="grid grid-cols-12 gap-1 mb-2 mx-4">
+                                <!-- First column with 1/12 width -->
+                                <div class="col-span-2 bg-gray-200 px-4 py-2 text-center">
+                                        {{ $survey->id }}
+                                </div>
+                                
+                                <!-- Second column with 5/12 width -->
+                                <div class="col-span-6 bg-gray-200 px-4 py-2 ">
+                                        {{ $survey->title }}
+                                </div>
+            
+                                <!-- Third column with 4/12 width -->
+                                <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
+                                    @if($percentCompleted[0] > 0 && $percentCompleted[0] < 100)
+                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                            Send Reminder
+                                        </button>
+                                    @endif
+                                    <form style="margin :0 !important;" action="{{ route('deleteSurvey', ['surveyId' => $user->id]) }}" method="POST" onsubmit="confirm('Are you sure you want to delete this survey?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
@@ -156,39 +190,11 @@
                                 </div>
                             </div>
                         @endforeach
-                    @else
-                        {{-- Display assigned surveys --}}
-                       
-                        <div class="grid grid-cols-12 gap-1 mb-2 mx-4">
-                            <!-- First column with 1/12 width -->
-                            {{-- <div class="col-span-2 bg-gray-200 p-2 text-center">
-                                {{ $loop->iteration }}
-                            </div> --}}
-                            
-                            <!-- Second column with 5/12 width -->
-                            <div class="col-span-6 bg-gray-200 p-2">
-                                @foreach ($surveys as $survey)
-                                    {{ $survey->title }}
-                                @endforeach
-                            </div>
-        
-                            <!-- Third column with 4/12 width -->
-                            <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
-                                <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                    Send Reminder
-                                </button>
-                                <form action="{{ route('deleteSurvey', ['surveyId' => $user->id]) }}" method="POST" onsubmit="confirm('Are you sure you want to delete this survey?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
                     @endif
                 </div>
             </div>
+            @if(!$other_surveys->isEmpty())
+
             <div class="max-w-full w-full rounded overflow-hidden shadow-lg bg-white">
                 <div class="px-6 py-4">
                     <form action="{{ route('assignSurvey') }}" method="POST">
@@ -209,26 +215,25 @@
                                 </label>
                                 <select id="select-option" name="survey_id"
                                     class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    @foreach ($surveys as $survey)
-                                        @if (!in_array($survey->id, $user->userSurveys->pluck('survey_id')->toarray()))
-                                            <option value="{{ $survey->id }}">{{ Str::upper($survey->title) }}
+                                    @foreach ($other_surveys as $other_survey)
+                                            <option value="{{ $other_survey->id }}">
+                                                {{ Str::upper($other_survey->title) }}
                                             </option>
-                                        @endif
                                     @endforeach
                                 </select>
                             </div>
                             <input type="hidden" name="user_id" value="{{ $user->id }}" readonly>
                         </div>
                         <div class="flex items-center justify-between">
-                            <button
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                type="submit">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit">
                                 Send Invite
                             </button>
                         </div>
-                    </form>
-                </div>
+                </form>
             </div>
+        </div>
+        @endif
         </div>
     </div>
 </x-app-layout>
