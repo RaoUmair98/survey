@@ -35,18 +35,17 @@ class SurvayInvitationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(Auth::user()->email, Auth::user()->name),
+            // from: new Address(Auth::user()->email, Auth::user()->name),
+
             subject: 'Survay Invitation Mail',
 
         );
     }
 
-    // public function build()
-    // {
-    //     return $this->markdown('emails.survayInvitation')->with([
-    //         'resetLink' => $this->resetLink,
-    //     ]);
-    // }
+    public function build()
+    {
+        return $this->content();
+    }
 
     /**
      * Get the message content definition.

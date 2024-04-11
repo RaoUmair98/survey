@@ -15,6 +15,7 @@ class SurvayReminderMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+
     //public $resetLink;
     // public Survey $survay;
 
@@ -33,7 +34,7 @@ class SurvayReminderMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(Auth::user()->email, Auth::user()->name),
+            // from: new Address(Auth::user()->email, Auth::user()->name),
             subject: 'Survay Reminder Mail',
         );
     }

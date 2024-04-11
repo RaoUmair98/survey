@@ -308,11 +308,16 @@ class superadminController extends Controller
 
         $surveys = Survey::whereIn('id', $assigned_survey_ids)->get();
 
-        $percent = UserSurvay::where('user_id', $user->id)->get();
-        $percentCompleted = $percent->pluck('percentCompleted')->toArray();
+        $percentCompleted = [];
 
+        // Check if there are user surveys and retrieve the completion percentage
+        if (!empty($user->userSurveys)) {
+            $percent = UserSurvay::where('user_id', $user->id)->get();
+            $percentCompleted = $percent->pluck('percentCompleted')->toArray();
+        }
+    
         // Check if the user's invite has already been sent
-        if ($percentCompleted[0] > 0 && $percentCompleted[0] < 100) {
+        if (!empty($percentCompleted)  && $percentCompleted[0] < 100) {
             // Send a survey reminder email
             Mail::to($user->email)->send(new SurvayReminderMail());
             
@@ -320,7 +325,7 @@ class superadminController extends Controller
             return redirect()->route('UserManagement', ['role_id' => 1])
                              ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
         }
-
+    
         // If no surveys are assigned, retrieve all surveys
         if (empty($assigned_survey_ids)) {
             $other_surveys = Survey::all();
@@ -360,23 +365,24 @@ class superadminController extends Controller
     public function delete($surveyId)
     {
         // Find the survey by ID
-
-        $survey = UserSurvay::where('user_id', $surveyId)->get();
+        $survey = UserSurvay::where('user_id', $surveyId)->first();
         // Delete the survey
-        $survey->each-> delete();
-
-        // Redirect to the dashboard with a success message
-        return redirect()->route('sendSurveyInvite', ['userId' => $surveyId])->with('success_message', 'Survey deleted successfully.');
+        if ($survey) {
+            // Delete the survey
+            $survey->delete();
+    
+            // Redirect to the dashboard with a success message
+            return redirect()->route('sendSurveyInvite', ['userId' => $surveyId])->with('success_message', 'Survey deleted successfully.');
+        } else {
+            // Redirect to the dashboard with an error message
+            return redirect()->route('sendSurveyInvite', ['userId' => $surveyId])->with('error_message', 'Survey not found.');
+        }
     }
 
 
     public function assignSurvey(Request $request)
     {
-        // dd($request->all());
-        $user = $request->user();
-
-        $survey = Survey::where('user_id', $user->id)->get();   
-       
+        $user = $request->user();       
         try {
             // Assigning survey to the user
             UserSurvay::create([
@@ -399,7 +405,7 @@ class superadminController extends Controller
             $flashMessages = [];
             $emailStatus = [];
 
-            $emailStatus['Employee'] = Mail::to($user->email)->send(new SurvayInvitationMail($surveyStart = url('survey?surveyId=1'),$survey));
+            $emailStatus['Employee'] = Mail::to($user->email)->send(new SurvayInvitationMail($surveyStart = url('/dashboard'),$survey));
 
             if ($emailStatus['Employee']) {
                 // Updating inviteSend to true for the user
@@ -413,66 +419,6 @@ class superadminController extends Controller
                 'status' => $emailStatus['Employee'] ? 'Sent' : 'Failed'
             ];
 
-
-            switch ($role_id) {
-                case 1:
-                    //send email to manager
-                    $emailStatus['Super Admin'] = Mail::to($manager->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
-                    $flashMessages[] = [
-                        'role' => 'Super Admin',
-                        'name' => $manager->name,
-                        'email' => $manager->email,
-                        'status' => $emailStatus['Super Admin'] ? 'Sent' : 'Failed'
-                    ];
-
-                    break;
-                case 2:
-                    $director = $manager->getManager();
-                    $superAdmin = $director->getManager();
-                    $emailStatus['director'] = Mail::to($director->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
-                    $emailStatus['super_admin'] = Mail::to($superAdmin->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
-                    $flashMessages[] = [
-                        'role' => 'Director',
-                        'name' => $director->name,
-                        'email' => $director->email,
-                        'status' => $emailStatus['director'] ? 'Sent' : 'Failed'
-                    ];
-                    $flashMessages[] = [
-                        'role' => 'Super Admin',
-                        'name' => $superAdmin->name,
-                        'email' => $superAdmin->email,
-                        'status' => $emailStatus['super_admin'] ? 'Sent' : 'Failed'
-                    ];
-                    break;
-                case 3:
-                    $director = $manager->getManager();
-                    $superAdmin = $director->getManager();
-                    $emailStatus['manager'] = Mail::to($manager->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
-                    $emailStatus['director'] = Mail::to($director->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
-                    $emailStatus['super_admin'] = Mail::to($superAdmin->email)->send(new SurveyUserIntimation($surveyLink = url('dashboard/viewSurvey?Id=1'), $survey, $user));
-                    $flashMessages[] = [
-                        'role' => 'Manager',
-                        'name' => $manager->name,
-                        'email' => $manager->email,
-                        'status' => $emailStatus['manager'] ? 'Sent' : 'Failed'
-                    ];
-                    $flashMessages[] = [
-                        'role' => 'Director',
-                        'name' => $director->name,
-                        'email' => $director->email,
-                        'status' => $emailStatus['director'] ? 'Sent' : 'Failed'
-                    ];
-                    $flashMessages[] = [
-                        'role' => 'Super Admin',
-                        'name' => $superAdmin->name,
-                        'email' => $superAdmin->email,
-                        'status' => $emailStatus['super_admin'] ? 'Sent' : 'Failed'
-                    ];
-                    break;
-                default:
-                    $flashMessages[] = "Invalid role ID.";
-                    break;
-            }
 
             session()->flash('flash_messages', $flashMessages);
 

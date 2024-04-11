@@ -143,8 +143,8 @@
             
                                 <!-- Third column with 4/12 width -->
                                 <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
-                                    @if($percentCompleted[0] > 0 && $percentCompleted[0] < 100)
-                                        <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                    @if($percentCompleted[0] < 100)
+                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                             Send Reminder
                                         </button>
                                     @endif  
@@ -175,7 +175,7 @@
             
                                 <!-- Third column with 4/12 width -->
                                 <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
-                                    @if($percentCompleted[0] > 0 && $percentCompleted[0] < 100)
+                                    @if($percentCompleted[0] < 100)
                                         <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                             Send Reminder
                                         </button>
