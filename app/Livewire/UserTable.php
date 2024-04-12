@@ -128,7 +128,7 @@ final class UserTable extends PowerGridComponent
             }
 
             foreach ($manager_responses as $manager_response) {
-                $$manager_response->delete();
+                $manager_response->delete();
             }
 
             // Delete user's surveys
