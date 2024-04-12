@@ -17,13 +17,16 @@ class SurvayReminderMail extends Mailable
 
 
     //public $resetLink;
-    // public Survey $survay;
+    // public $surveyLink;
+    public $survey;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct( $survey)
     {
+        // $this->surveyLink  = $surveyLink;
+        $this->$survey = $survey;
        // $this->resetLink = $resetLink;
 
     }

@@ -317,14 +317,14 @@ class superadminController extends Controller
         }
     
         // Check if the user's invite has already been sent
-        if (!empty($percentCompleted)  && $percentCompleted[0] < 100) {
-            // Send a survey reminder email
-            Mail::to($user->email)->send(new SurvayReminderMail());
+        // if (!empty($percentCompleted)  && $percentCompleted[0] < 100) {
+        //     // Send a survey reminder email
+        //     Mail::to($user->email)->send(new SurvayReminderMail());
             
-            // Redirect back to the user management page with a success message
-            return redirect()->route('UserManagement', ['role_id' => 1])
-                             ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
-        }
+        //     // Redirect back to the user management page with a success message
+        //     return redirect()->route('UserManagement', ['role_id' => 1])
+        //                      ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
+        // }
     
         // If no surveys are assigned, retrieve all surveys
         if (empty($assigned_survey_ids)) {
@@ -360,6 +360,20 @@ class superadminController extends Controller
         //     return redirect()->route('UserManagement', ['role_id' => 1])->with('error_message', 'Unable to send  link');
         // }
     }
+
+
+    public function sendReminder(Request $request)
+    {
+        // Retrieve the user and survey based on the request
+        $user = User::findOrFail($request->user_id);
+        $survey = Survey::findOrFail($request->survey_id);
+        // Send the reminder email
+        Mail::to($user->email)->send(new SurvayReminderMail($survey));
+
+        // Redirect back with a success message
+        return redirect()->route('UserManagement', ['role_id' => 1])
+                                ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');
+   }
 
 
     public function delete($surveyId)

@@ -134,6 +134,7 @@ Route::get('/sendSurveyInvite', [superadminController::class, 'sendSurvayInvite'
 Route::post('/assignSurvey', [superadminController::class, 'assignSurvey'])->middleware(['auth', 'verified'])->name('assignSurvey');
 Route::delete('/surveys/{surveyId}', [superadminController::class, 'delete'])
     ->name('deleteSurvey');
+Route::post('send-reminder', [superadminController::class, 'sendReminder'])->middleware(['auth', 'verified'])->name('sendReminder');
 
 
 Route::view('profile', 'profile')

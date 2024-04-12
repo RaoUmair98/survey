@@ -144,10 +144,15 @@
                                 <!-- Third column with 4/12 width -->
                                 <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
                                     @if($percentCompleted[0] < 100)
-                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            Send Reminder
-                                        </button>
-                                    @endif  
+                                        <form method="POST" action="{{ route('sendReminder') }}">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                            <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+                                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                Send Reminder
+                                            </button>
+                                        </form>
+                                     @endif
                                     <form style="margin :0 !important;" action="{{ route('deleteSurvey', ['surveyId' => $survey->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this survey?')">
                                         @csrf
                                         @method('DELETE')
@@ -176,10 +181,15 @@
                                 <!-- Third column with 4/12 width -->
                                 <div class="col-span-4 bg-gray-200 p-2 flex justify-between items-center">
                                     @if($percentCompleted[0] < 100)
-                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            Send Reminder
-                                        </button>
-                                    @endif
+                                        <form method="POST" action="{{ route('sendReminder') }}">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                            <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+                                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                Send Reminder
+                                            </button>
+                                        </form>
+                                     @endif
                                     <form style="margin :0 !important;" action="{{ route('deleteSurvey', ['surveyId' => $user->id]) }}" method="POST" onsubmit="confirm('Are you sure you want to delete this survey?')">
                                         @csrf
                                         @method('DELETE')

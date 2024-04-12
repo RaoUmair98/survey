@@ -49,14 +49,14 @@
 
         <!-- Content -->
         <p style="text-align: center;"> <!-- Adjusted this line -->
-            <a href="" style="display: inline-block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; margin: 20px; border-radius: 5px;">
-                Start Survey
+            <a href={{url('/dashboard')}} style="display: inline-block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; margin: 20px; border-radius: 5px;">
+                Continue Survey
             </a>
         </p>
 
         <hr>
         <small>
-            If you're having trouble clicking the "Start Survey" button, copy and paste the URL below into your web browser: (link) <!-- Adjusted this line -->
+            If you're having trouble clicking the "Start Survey" button, copy and paste the URL below into your web browser.  <!-- Adjusted this line -->
         </small>
 
         <!-- Footer -->

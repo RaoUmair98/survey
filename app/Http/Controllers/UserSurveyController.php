@@ -33,8 +33,8 @@ class UserSurveyController extends Controller
              ];
         });
 
-        // dd($survey_data);
         $questions = Question::where('survey_id', $survey_id)->get();
+        // dd()
         $parts = $questions->unique('part')->pluck('part','partTitle')->toArray();
         $userSurveyResponse = SurveyResponse::where('survey_id', $survey_id)->where('user_id', $request->userId)->get();
 
