@@ -27,7 +27,10 @@ class superadminController extends Controller
     {
 
         $allUsers = User::where('role_id', '>', 3)->get();
-        return view('superAdmin.dashboard', compact(['allUsers']));
+        $user_id = $allUsers->pluck('id')->toArray();
+        $user_surveys = UserSurvay::whereIn('user_id', $user_id)->get();
+        $percentage = $user_surveys->pluck('percentCompleted')->toArray();
+        return view('superAdmin.dashboard', compact(['allUsers', 'percentage', 'user_surveys']));
     }
 
     public function getCompletedSurvey()

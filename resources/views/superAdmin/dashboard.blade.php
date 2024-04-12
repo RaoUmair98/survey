@@ -51,7 +51,7 @@
                         <div class="dash_box w-[100%] d1 bg-[#0081CA] shadow-xl">
                             <div class="num">
                                 @if (Auth::user()->role->id == 1)
-                                    <h2>{{ $allUsers->where('survayCompleted', true)->count() }}</h2>
+                                <h2>{{ $user_surveys->where('percentCompleted', '=', 100)->count() }}</h2>
                                 @else
                                     <h2>{{ Auth::user()->subordinates()->where('survayCompleted', true)->count() }}</h2>
                                 @endif
@@ -82,11 +82,11 @@
                         <div class="dash_box w-[100%] d2 bg-[#00A96E] shadow-xl">
                             <div class="num">
                                 @if (Auth::user()->role->id == 1)
-                                    <h2>{{ $allUsers->where('isSurveyStarted', true)->count() }}</h2>
+                                    <h2>{{ $user_surveys->where('percentCompleted', '<', 100)->where('percentCompleted', '>', 0)->count() }}</h2>
                                 @else
                                     <h2>{{ Auth::user()->subordinates()->where('isSurveyStarted', true)->count() }}</h2>
                                 @endif
-                            </div>
+                            </div>  
                             <div class="txt">
                                 <p>In Progress Surveys</p>
                             </div>
@@ -114,8 +114,7 @@
                         <div class="dash_box w-[100%] d3 bg-[#FF5861] shadow-xl">
                             <div class="num">
                                 @if (Auth::user()->role->id == 1)
-                                    <h2>{{ $allUsers->where('inviteSend', true)->where('isSurveyStarted', false)->count() }}
-                                    </h2>
+                                  <h2>{{ $user_surveys->where('percentCompleted', '=', 0)->count() }}</h2>
                                 @else
                                     <h2>{{ Auth::user()->subordinates()->where('inviteSend', true)->where('isSurveyStarted', false)->count() }}
                                     </h2>
