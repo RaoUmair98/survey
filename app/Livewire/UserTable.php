@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\ManagerSurvay;
 use App\Models\User;
+use App\Models\UserSurvay;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -107,18 +109,34 @@ final class UserTable extends PowerGridComponent
     #[\Livewire\Attributes\On('delete')]
     public function delete($rowId)
     {
-
         $user = User::findOrFail($rowId);
 
-        //check if user have employess under
+        // Check if the user has employees under
         $subordinates = $user->subordinates();
         if ($subordinates->count() == 0) {
-            $this->js('alert("This will delete, user: ' .  strtoupper(User::find($rowId)->name) . '")');
-            User::find($rowId)->delete();
+            // Retrieve user's surveys
+            $user_surveys = UserSurvay::where('user_id', $user->id)->get();
+            $manager_surveys = ManagerSurvay::where('user_id', $user->id)->get();
+            
+            // Delete user's surveys
+            foreach ($user_surveys as $user_survey) {
+                $user_survey->delete();
+            }
+
+            // Delete manager's surveys
+            foreach ($manager_surveys as $manager_survey) {
+                $manager_survey->delete();
+            }
+
+            // Delete the user
+            $user->delete();
+
+            $this->js('alert("User ' . strtoupper($user->name) . ' has been deleted.")');
             $this->dispatch('$refresh');
         } else {
-            $this->js('alert("Error : Cannot delete, user: ' .  strtoupper(User::find($rowId)->name) . 'Have Employees assigned under")');
+            $this->js('alert("Error: Cannot delete user ' . strtoupper($user->name) . ' because they have employees assigned.")');
         }
+
     }
 
     #[\Livewire\Attributes\On('email')]
