@@ -153,7 +153,7 @@
                             </div>
                             <div class="txt">
                                 <p>Total Employees</p>
-                            </div>
+                            </div>  
                             <div class="flex_btn flex items-center justify-between">
                                 <a type="button" href="{{ route('UserManagement', ['role_id' => 1]) }}">View All</a>
                                 <svg width="44" height="44" viewBox="0 0 44 44" fill="none"

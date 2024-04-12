@@ -76,35 +76,39 @@ class superadminController extends Controller
         if ($role_id == 1) {
              $usersurveys = UserSurvay::paginate(10);
 
+             $names = [];
+             $titles = [];
+    
              foreach ($usersurveys as $survey) {
                 $userId = $survey->user_id;
                 $surveyId = $survey->survey_id;
-                $name = User::where('id', $userId)->value('name');
-                $title = Survey::where('id', $surveyId)->value('title');
+                // Append names and titles to the arrays
+                $names[$surveyId] = User::where('id', $userId)->value('name');
+                $titles[$surveyId] = Survey::where('id', $surveyId)->value('title');
             }
-       
+
          } else {
             /** @var \App\User $user */
             $user =  Auth::user();
             $name = User::where('id', $user->id)->value('name');
             $subordinates = $user->subordinates()->pluck('id')->toArray();
-            
-            $usersurveys = '';
-            $name = ''; // Initialize name variable
-            $title = ''; // Initialize title variable
+            $usersurveys = UserSurvay::whereIn('user_id', $subordinates)->paginate(10);
 
             
-            $usersurveys = UserSurvay::whereIn('user_id', $subordinates)->paginate(10);
+            // Initialize arrays to store names and titles
+            $names = [];
+            $titles = [];
 
             foreach ($usersurveys as $survey) {
                 $userId = $survey->user_id;
                 $surveyId = $survey->survey_id;
-                $name = User::where('id', $userId)->value('name');
-                $title = Survey::where('id', $surveyId)->value('title');
+                // Append names and titles to the arrays
+                $names[$surveyId] = User::where('id', $userId)->value('name');
+                $titles[$surveyId] = Survey::where('id', $surveyId)->value('title');
             }
         }
 
-        return view('superAdmin.survayResponse', compact(['usersurveys', 'name', 'title']));
+        return view('superAdmin.survayResponse', compact(['usersurveys', 'names', 'titles']));
     }
 
     public function editSurvay(Request $request)
