@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\ManagerResponse;
 use App\Models\ManagerSurvay;
+use App\Models\SurveyResponse;
 use App\Models\User;
 use App\Models\UserSurvay;
 use Illuminate\Support\Carbon;
@@ -117,7 +119,18 @@ final class UserTable extends PowerGridComponent
             // Retrieve user's surveys
             $user_surveys = UserSurvay::where('user_id', $user->id)->get();
             $manager_surveys = ManagerSurvay::where('user_id', $user->id)->get();
+
+            $survey_responses = SurveyResponse::where('user_id', $user->id)->get();
+            $manager_responses = ManagerResponse::where('user_id', $user->id)->get();
             
+            foreach ($survey_responses as $survey_response) {
+                $survey_response->delete();
+            }
+
+            foreach ($manager_responses as $manager_response) {
+                $$manager_response->delete();
+            }
+
             // Delete user's surveys
             foreach ($user_surveys as $user_survey) {
                 $user_survey->delete();

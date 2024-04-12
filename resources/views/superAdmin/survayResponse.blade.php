@@ -119,10 +119,10 @@
                             @if($usersurveys === null)
                                 <p>User not found</p>
                             @else
-
+                            @php $counter = 1; @endphp
                                 @foreach ($usersurveys as $usersurvey)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $usersurvey->id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $counter }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $names[$usersurvey->survey_id] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $titles[$usersurvey->survey_id] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -180,6 +180,7 @@
                                         @endif
                                     </td>
                                 </tr>
+                                @php $counter++; @endphp
                                 @endforeach
                             @endif
                         </tbody>
