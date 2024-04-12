@@ -93,7 +93,7 @@ class superadminController extends Controller
             $name = ''; // Initialize name variable
             $title = ''; // Initialize title variable
 
-
+            
             $usersurveys = UserSurvay::whereIn('user_id', $subordinates)->paginate(10);
 
             foreach ($usersurveys as $survey) {
@@ -320,7 +320,7 @@ class superadminController extends Controller
         // if (!empty($percentCompleted)  && $percentCompleted[0] < 100) {
         //     // Send a survey reminder email
         //     Mail::to($user->email)->send(new SurvayReminderMail());
-            
+
         //     // Redirect back to the user management page with a success message
         //     return redirect()->route('UserManagement', ['role_id' => 1])
         //                      ->with('success_message', 'Survey Reminder sent to ' . $user->name . ' email (' . $user->email . ')');

@@ -123,8 +123,8 @@
                                 @foreach ($usersurveys as $usersurvey)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $usersurvey->id }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $title }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $usersurvey->user->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{  $usersurvey->survey->title }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="min-w-[10rem] h-4 bg-gray-200 rounded-full">
                                             <div class="h-full text-center text-xs text-white bg-green-500 rounded-full"
