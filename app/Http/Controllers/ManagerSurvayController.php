@@ -114,7 +114,7 @@ class ManagerSurvayController extends Controller
         $part = "Part IV";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
         $surveyUser = User::find($request->subordinateId);
-        return view('managersurvey.stepthree', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+        return view('managerSurvey.stepthree', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
     }
 
         public function stepFour(Request $request)
@@ -146,7 +146,7 @@ class ManagerSurvayController extends Controller
             $part = "Part V";
             $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
             $surveyUser = User::find($request->subordinateId);
-            return view('managersurvey.stepfour', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+            return view('managerSurvey.stepfour', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
         }
 
         public function stepFive(Request $request)
@@ -177,7 +177,7 @@ class ManagerSurvayController extends Controller
         $part = "Part VI";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
         $surveyUser = User::find($request->subordinateId);
-        return view('managersurvey.stepfive', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+        return view('managerSurvey.stepfive', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
         }
 
         public function stepSix(Request $request)
@@ -208,6 +208,6 @@ class ManagerSurvayController extends Controller
             $part = "Part VI";
             $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
             $surveyUser = User::find($request->subordinateId);
-            return view('managersurvey.stepsix', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
+            return view('managerSurvey.stepsix', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
         }
 }
