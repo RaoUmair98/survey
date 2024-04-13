@@ -324,7 +324,7 @@
 
 
                 </ul>
-                <div class="logout_test">
+                {{-- <div class="logout_test">
                     <a href="#"
                         class="flex items-center p-2 text-gray-500 hover:text-white rounded-lg dark:text-white  group">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-white"
@@ -335,7 +335,7 @@
                         </svg>
                         <span class="ms-3">Logout</span>
                     </a>
-                </div>
+                </div> --}}
             </div>
         </aside>
     </div>
