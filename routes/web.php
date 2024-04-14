@@ -107,6 +107,10 @@ Route::get('/dashboard/edituser', [superadminController::class, 'editUser'])->mi
 
 Route::get('/dashboard/allSurvey', [superadminController::class, 'allSurvay'])->middleware(['auth', 'verified'])->name('allSurvey');
 Route::get('/dashboard/responseSurvey', [superadminController::class, 'responseSurvay'])->middleware(['auth', 'verified'])->name('responseSurvey');
+Route::get('/dashboard/completedSurveys', [superadminController::class, 'completedSurvays'])->middleware(['auth', 'verified'])->name('completedSurvays');
+Route::get('/dashboard/progressSurveys', [superadminController::class, 'progressSurvays'])->middleware(['auth', 'verified'])->name('progressSurvays');
+Route::get('/dashboard/notstartedSurveys', [superadminController::class, 'notstartedSurvays'])->middleware(['auth', 'verified'])->name('notstartedSurvays');
+
 
 Route::get('/dashboard/createSurvey', [superadminController::class, 'createSurvay'])->middleware(['auth', 'verified'])->name('createSurvey');
 Route::post('/dashboard/createNewSurvey', [superadminController::class, 'createNewSurvay'])->middleware(['auth', 'verified'])->name('createNewSurvey');
