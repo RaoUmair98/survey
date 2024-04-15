@@ -44,11 +44,11 @@ final class UserTable extends PowerGridComponent
     public function datasource(): Builder
     {
 
-        if (in_array($this->role_id, [2, 3])) {
+        if ($this->role_id ===  3) {
             return User::whereNot('role_id', 1)->where('role_id', $this->role_id)->with('role');
         } else {
 
-            if (Auth::user()->role->id == 1) {
+            if (in_array(Auth::user()->role->id,  [1, 2])) {
                 return User::whereNot('role_id', 1)->with('role');
             }
 

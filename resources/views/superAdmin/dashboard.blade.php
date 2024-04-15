@@ -146,7 +146,7 @@
                         </div>
                         <div class="dash_box w-[100%] d4 bg-[#0081CA] shadow-xl">
                             <div class="num">
-                                @if (Auth::user()->role->id == 1)
+                                @if (in_array(Auth::user()->role->id, [1, 2]))
                                     <h2>{{ $allUsers->count() }}</h2>
                                 @else
                                     <h2>{{ Auth::user()->subordinates()->count() }}</h2>
