@@ -61,11 +61,11 @@ return [
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
-            'host' => 'mail.codepxldev.com',
-            'port' => '465',
+            'host' => 'smtp.office365.com',
+            'port' => '587',
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => 'woodview@codepxldev.com',
-            'password' => '(nQ4vAfROGB@',
+            'username' => 'woodviewhr@woodview.ca',
+            'password' => 'w00dvi3w#HR$',
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
@@ -137,7 +137,7 @@ return [
     // ],
 
     'from' => [
-        'address' =>'woodview@codepxldev.com',
+        'address' =>'woodviewhr@woodview.ca',
         'name' => 'woodview',
     ],
 
