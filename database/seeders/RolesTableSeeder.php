@@ -23,6 +23,7 @@ class RolesTableSeeder extends Seeder
         $this->command->warn('Old Roles Deleted!');
         $roles = [
             ['role_name' => 'Super Admin', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['role_name' => 'Executive Director', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['role_name' => 'Director', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['role_name' => 'Manager', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['role_name' => 'Employee', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],

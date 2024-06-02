@@ -58,12 +58,20 @@ class UsersTableSeeder extends Seeder
         $this->command->info('Super Admin seeded successfully! default password :' . $password);
 
 
+        $director1 = User::create([
+            'name' => 'Executive Director',
+            'email' => 'chirag@gmail.com',
+            'password' => Hash::make($password),
+            'role_id' => 2, // Executive Director
+            'manager_id' => 1, // No manager for directors
+        ]);
+
         // First, create two directors
         $director1 = User::create([
             'name' => 'Director1',
             'email' => 'priyasanchari@gmail.com',
             'password' => Hash::make('password'),
-            'role_id' => 2, // Director
+            'role_id' => 3, // Director
             'manager_id' => 1, // No manager for directors
         ]);
 
@@ -71,7 +79,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Director2',
             'email' => 'vswapin@gmail.com',
             'password' => Hash::make('password'),
-            'role_id' => 2, // Director
+            'role_id' => 3, // Director
             'manager_id' => 1, // No manager for directors
         ]);
 
@@ -82,7 +90,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Manager' . ($i + 1),
                 'email' => 'manager' . ($i + 1) . '@gmail.com',
                 'password' => Hash::make('password'),
-                'role_id' => 3, // Manager
+                'role_id' => 4, // Manager
                 'manager_id' => $i % 2 == 0 ? $director1->id : $director2->id, // Alternate between two directors
             ]);
             $managers[] = $manager;
@@ -93,7 +101,7 @@ class UsersTableSeeder extends Seeder
                 'name' => $indianNames[array_rand($indianNames)],
                 'email' => 'employee' . ($i + 1) . '@gmail.com',
                 'password' => Hash::make('password'),
-                'role_id' => 4, // Employee
+                'role_id' => 5, // Employee
                 'manager_id' => $managers[$i % 10]->id, // Assign managers in a round-robin manner
             ]);
         }

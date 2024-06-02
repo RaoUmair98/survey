@@ -168,7 +168,7 @@
                                                         </defs>
                                                     </svg>
                                                 </a> --}}
-                                            @if(Auth::user()->role->role_id >=2)
+                                            @if(Auth::user()->role->role_id >=3)
                                             <a type="button" href="{{'/survey/'.$usersurvey->user->name.'/'.$usersurvey->user->id.'/employee_progress'}}"
                                                 class="bg-amber-500 hover:bg-amber-700 text-white font-bold py-1 px-2 rounded">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"

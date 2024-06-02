@@ -26,7 +26,7 @@ class superadminController extends Controller
     public function index(Request $request)
     {
 
-        $allUsers = User::where('role_id', '>', 3)->get();
+        $allUsers = User::where('role_id', '>', 4)->get();
         $user_id = $allUsers->pluck('id')->toArray();
         $user_surveys = UserSurvay::whereIn('user_id', $user_id)->get();
         $manager_survey = ManagerResponse::whereIn('subordinate_id', $user_id)->get();
@@ -36,7 +36,7 @@ class superadminController extends Controller
 
     public function getCompletedSurvey()
     {
-        $usersWith100Percentage = User::where('role_id', '>', 3)
+        $usersWith100Percentage = User::where('role_id', '>', 4)
         ->leftJoin('user_survays', 'users.id', '=', 'user_survays.user_id')
         ->leftJoin('manager_survays', 'users.id', '=', 'manager_survays.user_id')
         ->where(function ($query) {
