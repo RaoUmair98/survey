@@ -22,16 +22,16 @@ class SurvaySeeder extends Seeder
 
         // Delete data instead of truncating
         DB::table('survey_categories')->truncate();
-        $this->command->warn("Survey Category table truncated!");
+        $this->command->warn("Survay Category table truncated!");
 
         DB::table('surveys')->truncate();
-        $this->command->warn("Survey table truncated!");
+        $this->command->warn("Survay table truncated!");
 
 
         SurveyCategory::create(['name' => 'jan']);
         SurveyCategory::create(['name' => 'feb']);
 
-        $this->command->info("Survey Category 'jan' ,'feb' seeded successfully!");
+        $this->command->info("Survay Category 'jan' ,'feb' seeded successfully!");
 
         $faker = Faker::create();
 
@@ -81,7 +81,7 @@ class SurvaySeeder extends Seeder
 
         // Re-enable foreign key checks
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-        $this->command->info('Survey seeded successfully!');
+        $this->command->info('Survay seeded successfully!');
         $this->command->info('Developed by Swapin Vidya (c) 2024 for LaravelOne.in.');
     }
 }

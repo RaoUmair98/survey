@@ -183,7 +183,6 @@ class ManagerSurvayController extends Controller
         public function stepSix(Request $request)
         {
             $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->subordinateId)->get();
-            dd($surveyResponses);
 
             if ($request->has('managerAnswer') && count($request->managerAnswer) > 0) {
                 foreach ($request->managerAnswer as $key => $answer) {

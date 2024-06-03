@@ -35,7 +35,7 @@ class SurveyUserIntimation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Survey User Intimation',
+            subject: 'New Survay User Intimation',
         );
     }
 

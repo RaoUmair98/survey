@@ -144,7 +144,7 @@
                                 <!-- Third column with 3/12 width -->
 
                                 <div class="col-span-2 bg-blue-200 p-2">
-                                    Employe Response
+                                    Employee Response
                                 </div>
                                 <!-- Fourth column with 3/12 width -->
                                 <div class="col-span-2 bg-blue-200 p-2">
