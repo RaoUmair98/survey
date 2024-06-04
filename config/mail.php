@@ -64,10 +64,10 @@ return [
             'host' => 'smtp.office365.com',
             'port' => '587',
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => 'woodviewhr@woodview.ca',
+            'username' => 'woodview-hr@woodview.ca',
             'password' => 'w00dvi3w#HR$',
             'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'local_domain' => env('MAIL_EHLO_DOMAIN'),  
         ],
 
         'ses' => [
@@ -137,7 +137,7 @@ return [
     // ],
 
     'from' => [
-        'address' =>'woodviewhr@woodview.ca',
+        'address' =>'woodview-hr@woodview.ca',
         'name' => 'woodview',
     ],
 
