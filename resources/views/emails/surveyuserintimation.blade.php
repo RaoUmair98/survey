@@ -43,9 +43,9 @@
         <!-- Header -->
         <div class="header">
             <img src="{{ asset('logo/logo.png') }}" alt="Company Logo">
-            <h1>Welcome to Our Survey!</h1>
+            <h1>Welcome to Our Survay!</h1>
             <h2>{{$survey->title}}</h2>
-            <p>A New Survey had been assigined to user : {{$user->name}}</p><br>
+            <p>A New Survay had been assigined to user : {{$user->name}}</p><br>
             @php echo ($survey->description); @endphp
         </div>
 
@@ -58,7 +58,7 @@
 
         <hr>
         <small>
-            If you're having trouble clicking the "Start Survey" button, copy and paste the URL below into your web browser: {{  $surveyLink }} <!-- Adjusted this line -->
+            If you're having trouble clicking the "Start Survay" button, copy and paste the URL below into your web browser: {{  $surveyLink }} <!-- Adjusted this line -->
         </small>
 
         <!-- Footer -->

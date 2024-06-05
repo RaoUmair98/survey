@@ -46,7 +46,7 @@ class ExecutiveDirectorController extends Controller
 
     public function allUsers(Request $request)
     {
-        $role_id = $request->role_id;
+        $role_id = 2;
         $roleName = Role::findOrFail($role_id)->role_name;
         return view('executive_director.userManagement', compact(['role_id', 'roleName']));
     }
