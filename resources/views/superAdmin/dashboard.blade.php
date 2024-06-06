@@ -45,7 +45,7 @@
                 </div>
             @endif
 
-            @if (Auth::user()->role->id <= 3)
+            @if (Auth::user()->role->id <= 4)
                 <div class="dash_cards mt-2">
                     <div class="dash_card flex items-center justify-center">
                         <div class="dash_box w-[100%] d1 bg-[#0081CA] shadow-xl">

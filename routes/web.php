@@ -144,31 +144,31 @@ Route::post('send-reminder', [superadminController::class, 'sendReminder'])->mid
 
 // Executive Director
 
-Route::get('/dashboard', [ExecutiveDirectorController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard/allusers', [ExecutiveDirectorController::class, 'allUsers'])->middleware(['auth', 'verified'])->name('UserManagement');
-Route::get('/dashboard/adduser', [ExecutiveDirectorController::class, 'addUser'])->middleware(['auth', 'verified'])->name('addUser');
-Route::get('/dashboard/edituser', [ExecutiveDirectorController::class, 'editUser'])->middleware(['auth', 'verified'])->name('editUser');
+// Route::get('/dashboard', [ExecutiveDirectorController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard/allusers', [ExecutiveDirectorController::class, 'allUsers'])->middleware(['auth', 'verified'])->name('UserManagement');
+// Route::get('/dashboard/adduser', [ExecutiveDirectorController::class, 'addUser'])->middleware(['auth', 'verified'])->name('addUser');
+// Route::get('/dashboard/edituser', [ExecutiveDirectorController::class, 'editUser'])->middleware(['auth', 'verified'])->name('editUser');
 
 
-Route::get('/dashboard/allSurvey', [ExecutiveDirectorController::class, 'allSurvay'])->middleware(['auth', 'verified'])->name('allSurvey');
-Route::get('/dashboard/responseSurvey', [ExecutiveDirectorController::class, 'responseSurvay'])->middleware(['auth', 'verified'])->name('responseSurvey');
-Route::get('/dashboard/completedSurveys', [ExecutiveDirectorController::class, 'completedSurvays'])->middleware(['auth', 'verified'])->name('completedSurvays');
-Route::get('/dashboard/progressSurveys', [ExecutiveDirectorController::class, 'progressSurvays'])->middleware(['auth', 'verified'])->name('progressSurvays');
-Route::get('/dashboard/notstartedSurveys', [ExecutiveDirectorController::class, 'notstartedSurvays'])->middleware(['auth', 'verified'])->name('notstartedSurvays');
+// Route::get('/dashboard/allSurvey', [ExecutiveDirectorController::class, 'allSurvay'])->middleware(['auth', 'verified'])->name('allSurvey');
+// Route::get('/dashboard/responseSurvey', [ExecutiveDirectorController::class, 'responseSurvay'])->middleware(['auth', 'verified'])->name('responseSurvey');
+// Route::get('/dashboard/completedSurveys', [ExecutiveDirectorController::class, 'completedSurvays'])->middleware(['auth', 'verified'])->name('completedSurvays');
+// Route::get('/dashboard/progressSurveys', [ExecutiveDirectorController::class, 'progressSurvays'])->middleware(['auth', 'verified'])->name('progressSurvays');
+// Route::get('/dashboard/notstartedSurveys', [ExecutiveDirectorController::class, 'notstartedSurvays'])->middleware(['auth', 'verified'])->name('notstartedSurvays');
 
 
-Route::get('/dashboard/createSurvey', [ExecutiveDirectorController::class, 'createSurvay'])->middleware(['auth', 'verified'])->name('createSurvey');
-Route::post('/dashboard/createNewSurvey', [ExecutiveDirectorController::class, 'createNewSurvay'])->middleware(['auth', 'verified'])->name('createNewSurvey');
+// Route::get('/dashboard/createSurvey', [ExecutiveDirectorController::class, 'createSurvay'])->middleware(['auth', 'verified'])->name('createSurvey');
+// Route::post('/dashboard/createNewSurvey', [ExecutiveDirectorController::class, 'createNewSurvay'])->middleware(['auth', 'verified'])->name('createNewSurvey');
 
 
 
-Route::get('/dashboard/editSurvey', [ExecutiveDirectorController::class, 'editSurvay'])->middleware(['auth', 'verified'])->name('editSurvey');
-Route::patch('/dashboard/updateSurvey', [ExecutiveDirectorController::class, 'updateSurvay'])->middleware(['auth', 'verified'])->name('updateSurvey');
-Route::patch('/dashboard/updateQuestion', [ExecutiveDirectorController::class, 'updateQuestion'])->middleware(['auth', 'verified'])->name('updateQuestion');
-Route::post('/dashboard/storeQuestion', [ExecutiveDirectorController::class, 'storeQuestion'])->middleware(['auth', 'verified'])->name('storeQuestion');
-Route::delete('/questions/{id}', [ExecutiveDirectorController::class, 'deleteQuestion'])->name('questions.delete');
+// Route::get('/dashboard/editSurvey', [ExecutiveDirectorController::class, 'editSurvay'])->middleware(['auth', 'verified'])->name('editSurvey');
+// Route::patch('/dashboard/updateSurvey', [ExecutiveDirectorController::class, 'updateSurvay'])->middleware(['auth', 'verified'])->name('updateSurvey');
+// Route::patch('/dashboard/updateQuestion', [ExecutiveDirectorController::class, 'updateQuestion'])->middleware(['auth', 'verified'])->name('updateQuestion');
+// Route::post('/dashboard/storeQuestion', [ExecutiveDirectorController::class, 'storeQuestion'])->middleware(['auth', 'verified'])->name('storeQuestion');
+// Route::delete('/questions/{id}', [ExecutiveDirectorController::class, 'deleteQuestion'])->name('questions.delete');
 
-Route::get('/dashboard/viewSurvey', [ExecutiveDirectorController::class, 'viewSurvay'])->middleware(['auth', 'verified'])->name('viewSurvey');
+// Route::get('/dashboard/viewSurvey', [ExecutiveDirectorController::class, 'viewSurvay'])->middleware(['auth', 'verified'])->name('viewSurvey');
 
 
 
