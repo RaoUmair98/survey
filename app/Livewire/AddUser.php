@@ -51,7 +51,7 @@ class AddUser extends Component
 
 
         $validatedData = $this->validate();
-        $temporaryPassword = Str::random(6); // Adjust the length as needed
+        $temporaryPassword =12345678; // Adjust the length as needed
 
 
 
