@@ -61,7 +61,7 @@ class PasswordResetTest extends TestCase
         Notification::fake();
 
         $user = User::factory()->create();
-
+    
         Volt::test('pages.auth.forgot-password')
             ->set('email', $user->email)
             ->call('sendPasswordResetLink');

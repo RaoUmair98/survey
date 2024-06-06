@@ -124,7 +124,7 @@ class suveyController extends Controller
 
     public function stepFour(Request $request)
     {
-        
+       
         //update Survey progress in usersurvey model
         if ($request->has('answer') && count($request->answer) > 0) {
             foreach ($request->answer as $key => $answer) {
