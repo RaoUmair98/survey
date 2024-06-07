@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Mail\UserCreatedMail;
 use App\Models\Role;
 use Livewire\Component;
+use App\Models\UserSurvay;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,12 @@ class AddUser extends Component
             'role_id' => $this->role_id,
             'manager_id' =>  $this->reportsTo,
 
+        ]);
+
+        UserSurvay::create([
+            'user_id' => $user->id,
+            'survey_id' => 1,
+            'percentCompleted' => 0,
         ]);
 
 
