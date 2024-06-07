@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Mail\SurvayInvitationMail;
+use App\Mail\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -64,12 +64,13 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token)
     {
-        // $this->notify(new CustomResetPassword($token));
-        $resetToken = $token;
-        $resetLink = URL::to('reset-password') . '/' . $resetToken . '?email=' . $this->email;
-
-        // Mail::to($this)->send(new SurvayInvitationMail($resetLink));
-    }
+   // $this->notify(new CustomResetPassword($token));
+   $resetToken = $token;
+   $user = User::where('email', $this->email)->first();
+   $resetLink = URL::to('reset-password') . '/' . $resetToken . '?email=' . $this->email;
+//	dd($resetLink);
+    Mail::to($this)->send(new ResetPassword($resetLink,$user));
+ }
 
     public function subordinates()
     {
