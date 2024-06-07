@@ -50,13 +50,11 @@
                     <div class="dash_card flex items-center justify-center">
                         <div class="dash_box w-[100%] d1 bg-[#0081CA] shadow-xl">
                             <div class="num">
-                                {{-- @if (Auth::user()->role->id == 1) --}}
+                                @if (Auth::user()->role->id == 1)
                                 <h2>{{ $user_surveys->where('percentCompleted', '=', 100)->count() }}</h2>
-                                {{-- @else --}}
-                                {{-- <h2>{{ $manager_survey->where('percentCompleted', '=', 100)->count() }}</h2> --}}
-{{-- 
+                                @else
                                     <h2>{{ Auth::user()->subordinates()->where('survayCompleted', true)->count() }}</h2>
-                                @endif --}}
+                                @endif
                             </div>
                             <div class="txt">
                                 <p>Completed Survey</p>
@@ -83,11 +81,11 @@
                         </div>
                         <div class="dash_box w-[100%] d2 bg-[#00A96E] shadow-xl">
                             <div class="num">
-                                {{-- @if (Auth::user()->role->id == 1) --}}
+                                @if (Auth::user()->role->id == 1)
                                     <h2>{{ $user_surveys->where('percentCompleted', '<', 100)->where('percentCompleted', '>', 0)->count() }}</h2>
-                                {{-- @else
+                                @else
                                     <h2>{{ Auth::user()->subordinates()->where('isSurveyStarted', true)->count() }}</h2>
-                                @endif --}}
+                                @endif
                             </div>  
                             <div class="txt">
                                 <p>In Progress Surveys</p>
@@ -115,12 +113,12 @@
                         </div>
                         <div class="dash_box w-[100%] d3 bg-[#FF5861] shadow-xl">
                             <div class="num">
-                                {{-- @if (Auth::user()->role->id == 1) --}}
+                                @if (Auth::user()->role->id == 1)
                                   <h2>{{ $user_surveys->where('percentCompleted', '=', 0)->count() }}</h2>
-                                {{-- @else
+                                @else
                                     <h2>{{ Auth::user()->subordinates()->where('inviteSend', true)->where('isSurveyStarted', false)->count() }}
                                     </h2>
-                                @endif --}}
+                                @endif
                             </div>
                             <div class="txt">
                                 <p>Not Started Surveys</p>
