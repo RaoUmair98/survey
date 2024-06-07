@@ -46,7 +46,13 @@ class ManagerSurvayController extends Controller
         $part = "Part II";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
         $question = $questions->pluck('id')->toArray(); 
-        return view('managerSurvey.stepone', compact(['user_id', 'survey', 'part', 'questions', 'surveyResponses', 'surveyUser', 'managers']));
+
+        $managerResponses = ManagerResponse::where('survey_id', $request->surveyId)
+        ->where('subordinate_id', $request->SurveyuserId)
+        ->get()
+        ->keyBy('question_id');
+
+        return view('managerSurvey.stepone', compact(['user_id', 'survey', 'part', 'questions', 'surveyResponses', 'surveyUser', 'managers', 'managerResponses']));
     }
 
     public function stepTwo(Request $request)

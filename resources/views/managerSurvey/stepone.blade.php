@@ -152,6 +152,9 @@
                                 </div>
                             </div>
                             @foreach ($questions as $question)
+                                @php
+                                    $managerResponse = $managerResponses->get($question->id);
+                                @endphp
                                 <div class="grid grid-cols-12 gap-1 mb-2 mx-4">
                                     <!-- First column with 1/12 width -->
                                     <div class="col-span-1 bg-gray-200 p-2 text-center">{{ $question->id }}</div>
@@ -185,10 +188,10 @@
                                                 class="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                                 required>
                                                 <option value="" selected>Select</option>
-                                                <option value="EE" {{ isset($managerResponse) && $managerResponse->response == 'EE' ? 'selected' : '' }}>EE</option>
-                                                <option value="ME" {{ isset($managerResponse) && $managerResponse->response == 'ME' ? 'selected' : '' }}>ME</option>
-                                                <option value="TR" {{ isset($managerResponse) && $managerResponse->response == 'TR' ? 'selected' : '' }}>TR</option>
-                                                <option value="FD" {{ isset($managerResponse) && $managerResponse->response == 'FD' ? 'selected' : '' }}>FD</option>
+                                                <option value="EE" {{ $managerResponse && $managerResponse->response === 'EE' ? 'selected' : '' }}>EE</option>
+                                                <option value="ME" {{ $managerResponse && $managerResponse->response === 'ME' ? 'selected' : '' }}>ME</option>
+                                                <option value="TR" {{ $managerResponse && $managerResponse->response === 'TR' ? 'selected' : '' }}>TR</option>
+                                                <option value="FD" {{ $managerResponse && $managerResponse->response === 'FD' ? 'selected' : '' }}>FD</option>
                                             </select>
                                         </div>
                                     @endif
