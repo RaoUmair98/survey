@@ -177,6 +177,9 @@ class ManagerSurvayController extends Controller
         $part = "Part VI";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
         $surveyUser = User::find($request->subordinateId);
+        session()->flash('success', 'Survey completed successfully.');
+
+    // Redirect to the dashboard
         return view('managerSurvey.stepfive', compact(['survey', 'part', 'questions','surveyResponses','surveyUser']));
         }
 

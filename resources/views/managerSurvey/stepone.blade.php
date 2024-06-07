@@ -185,10 +185,10 @@
                                                 class="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                                 required>
                                                 <option value="" selected>Select</option>
-                                                <option value="EE">EE</option>
-                                                <option value="ME">ME</option>
-                                                <option value="TR">TR</option>
-                                                <option value="FD">FD</option>
+                                                <option value="EE" {{ isset($managerResponse) && $managerResponse->response == 'EE' ? 'selected' : '' }}>EE</option>
+                                                <option value="ME" {{ isset($managerResponse) && $managerResponse->response == 'ME' ? 'selected' : '' }}>ME</option>
+                                                <option value="TR" {{ isset($managerResponse) && $managerResponse->response == 'TR' ? 'selected' : '' }}>TR</option>
+                                                <option value="FD" {{ isset($managerResponse) && $managerResponse->response == 'FD' ? 'selected' : '' }}>FD</option>
                                             </select>
                                         </div>
                                     @endif

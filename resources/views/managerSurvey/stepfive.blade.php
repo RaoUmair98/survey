@@ -185,7 +185,7 @@
                         <div class="flex justify-end my-6 mx-4 gap-x-1">
                             <button type="submit"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                               Dashboard
+                               Submit Survey
                             </button>
                         </div>
                     </form>
