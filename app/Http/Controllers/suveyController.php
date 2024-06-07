@@ -180,6 +180,40 @@ class suveyController extends Controller
         $survey = Survey::findOrfail($request->surveyId);
         $part = "Part VI";
         $questions = Question::where('survey_id', $survey->id)->where('part', $part)->get();
+
+        $user = User::find($request->userId);
+
+        // Check if the user exists
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Find the user survey
+        $userSurvey = $user->userSurveys()->where('survey_id', $request->surveyId)->first();
+
+        // Check if the user survey exists
+        if (!$userSurvey) {
+            return response()->json(['error' => 'User survey not found'], 404);
+        }
+
+        // Update the user survey percentCompleted
+        $userSurvey->update([
+            'percentCompleted' => $percentCompleted
+        ]);
+
+        // Update the user survayCompleted
+        $user->update([
+            'survayCompleted' => true,
+            'isSurveyStarted' => false
+        ]);
+
+
+        // User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()
+        // ->update([
+        //     'percentCompleted' => $percentCompleted,
+        //     'survayCompleted' => true
+        // ]);
+
         return view('userSurvey.stepsix', compact(['survey', 'part', 'questions', 'get_surveys']));
     }
 
@@ -202,11 +236,40 @@ class suveyController extends Controller
         //dd($totalResponse, $totalQuestions);
         $percentCompleted = ($totalResponse / $totalQuestions) * 100;
 
-        User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()
-            ->update([
-                'percentCompleted' => $percentCompleted,
-                'survayCompleted' => true
-            ]);
+        // Check if the user exists
+        $user = User::find($request->userId);
+
+        // Check if the user exists
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Find the user survey
+        $userSurvey = $user->userSurveys()->where('survey_id', $request->surveyId)->first();
+
+        // Check if the user survey exists
+        if (!$userSurvey) {
+            return response()->json(['error' => 'User survey not found'], 404);
+        }
+
+        // Update the user survey percentCompleted
+        $userSurvey->update([
+            'percentCompleted' => $percentCompleted
+        ]);
+
+        // Update the user survayCompleted
+        $user->update([
+            'survayCompleted' => true,
+            'isSurveyStarted' => false
+        ]);
+
+
+        
+        // User::find($request->userId)->userSurveys->where('survey_id', $request->surveyId)->first()
+        //     ->update([
+        //         'percentCompleted' => $percentCompleted,
+        //         'survayCompleted' => true
+        //     ]);
         // Flash success message
         session()->flash('success', 'Survey completed successfully.');
 

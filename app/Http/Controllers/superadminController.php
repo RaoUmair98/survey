@@ -26,7 +26,7 @@ class superadminController extends Controller
     public function index(Request $request)
     {
 
-        $allUsers = User::where('role_id', '>', 4)->get();
+        $allUsers = User::where('role_id', '>', 1)->get();
         $user_id = $allUsers->pluck('id')->toArray();
         $user_surveys = UserSurvay::whereIn('user_id', $user_id)->get();
         $manager_survey = ManagerResponse::whereIn('subordinate_id', $user_id)->get();
@@ -251,8 +251,6 @@ class superadminController extends Controller
 
         return view('superAdmin.notstartedSurvays', compact(['usersurveys', 'names', 'titles', 'percentage']));
     }
-
-
 
     public function editSurvay(Request $request)
     {
