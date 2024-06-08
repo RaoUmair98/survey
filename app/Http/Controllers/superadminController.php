@@ -119,7 +119,7 @@ class superadminController extends Controller
     {
         $role_id = Auth::user()->role->id;
 
-        if ($role_id == 1) {
+        if (in_array($role_id, [1, 2, 3])) {
             $usersurveys = UserSurvay::where('percentCompleted', 100)->paginate(10);
             $percentage = $usersurveys->pluck('percentCompleted')->toArray();
 

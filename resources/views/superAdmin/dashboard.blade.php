@@ -50,7 +50,7 @@
                     <div class="dash_card flex items-center justify-center">
                         <div class="dash_box w-[100%] d1 bg-[#0081CA] shadow-xl">
                             <div class="num">
-                                @if (Auth::user()->role->id == 1)
+                                @if (in_array(Auth::user()->role->id, [1, 2, 3]))
                                     <h2>{{ $user_surveys->where('percentCompleted', '=', 100)->count() }}</h2>
                                 @else
                                     <h2>{{ Auth::user()->subordinates()->where('survayCompleted', true)->count() }}</h2>

@@ -24,7 +24,7 @@ class ManagerSurvayController extends Controller
     {
         $survey =  $request->surveyId;
         $user_id = $request->userId;
-
+        
         $supervisor = User::find($request->userId);
         $surveyUser = User::find($request->SurveyuserId);
         $surveyResponses = SurveyResponse::where('survey_id', $request->surveyId)->where('user_id', $request->SurveyuserId)->get();
