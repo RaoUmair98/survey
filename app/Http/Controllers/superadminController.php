@@ -6,6 +6,7 @@ use App\Mail\SurvayInvitationMail;
 use App\Mail\SurveyUserIntimation;
 use App\Mail\SurvayReminderMail;
 use App\Models\ManagerResponse;
+use App\Models\ManagerSurvay;
 use App\Models\Question;
 use App\Models\Role;
 use App\Models\Survey;
@@ -155,8 +156,14 @@ class superadminController extends Controller
             }
         }
 
+        $managerpercentage = [];
+        $user =  Auth::user();
+        $name = User::where('id', $user->id)->value('name');
+        $managerurveys = ManagerSurvay::whereIn('user_id', $subordinates)->where('percentCompleted', 53)->paginate(10);
+        $managerpercentage = $managerurveys->pluck('percentCompleted')->toArray();
+        
 
-        return view('superAdmin.completedSurvays', compact(['usersurveys', 'names', 'titles', 'percentage']));
+        return view('superAdmin.completedSurvays', compact(['usersurveys', 'names', 'titles', 'percentage', 'managerpercentage']));
     }
 
 

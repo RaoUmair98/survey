@@ -129,11 +129,21 @@
                                                 <td class="px-6 py-4 whitespace-nowrap">{{ $names[$usersurvey->survey_id] }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap">{{ $titles[$usersurvey->survey_id] }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="min-w-[10rem] h-4 bg-gray-200 rounded-full">
-                                                        <div class="h-full text-center text-xs text-white bg-green-500 rounded-full"
-                                                            style="width: {{ $usersurvey->percentCompleted }}%;">
-                                                            {{ $usersurvey->percentCompleted }}%</div>
-                                                    </div>
+                            
+                                                    @if(isset($managerpercentage[0]) && $managerpercentage[0] == 53)
+                                                        <div class="min-w-[10rem] h-4 bg-gray-200 rounded-full">
+                                                            <div class="h-full text-center text-xs text-white bg-red-500 rounded-full"
+                                                                style="width: {{ $usersurvey->percentCompleted }}%;">
+                                                                {{ $usersurvey->percentCompleted }}%</div>
+                                                        </div>
+                                                    @else
+                                                    
+                                                        <div class="min-w-[10rem] h-4 bg-gray-200 rounded-full">
+                                                            <div class="h-full text-center text-xs text-white bg-green-500 rounded-full"
+                                                                style="width: {{ $usersurvey->percentCompleted }}%;">
+                                                                {{ $usersurvey->percentCompleted }}%</div>
+                                                        </div>
+                                                    @endif
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
 
