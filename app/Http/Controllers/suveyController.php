@@ -57,6 +57,20 @@ class suveyController extends Controller
 
             }
 
+            $user = User::find($request->userId);
+
+            // Check if the user exists
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+    
+            // Find the user survey
+    
+            // Update the user survayCompleted
+            $user->update([
+                'isSurveyStarted' => true
+            ]);
+
             return view('userSurvey.stepone', compact(['get_surveys','survey', 'part', 'questions', 'survey_title', 'survey_end_date', 'survey_status', 'category_name', 'survey_id']));
         }
 
