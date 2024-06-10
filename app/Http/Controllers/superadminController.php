@@ -79,36 +79,33 @@ class superadminController extends Controller
         $role_id = Auth::user()->role->id;
 
         if ($role_id == 1) {
-             $usersurveys = UserSurvay::paginate(10);
-
-             $names = [];
-             $titles = [];
+            $usersurveys = UserSurvay::paginate(10);
     
-             foreach ($usersurveys as $survey) {
-                $userId = $survey->user_id;
-                $surveyId = $survey->survey_id;
-                // Append names and titles to the arrays
-                $names[$surveyId] = User::where('id', $userId)->value('name');
-                $titles[$surveyId] = Survey::where('id', $surveyId)->value('title');
-            }
-
-         } else {
-            /** @var \App\User $user */
-            $user =  Auth::user();
-            $name = User::where('id', $user->id)->value('name');
-            $subordinates = $user->subordinates()->pluck('id')->toArray();
-            $usersurveys = UserSurvay::whereIn('user_id', $subordinates)->paginate(10);
-
-            
-            // Initialize arrays to store names and titles
             $names = [];
             $titles = [];
-
+    
             foreach ($usersurveys as $survey) {
                 $userId = $survey->user_id;
                 $surveyId = $survey->survey_id;
                 // Append names and titles to the arrays
-                $names[$surveyId] = User::where('id', $userId)->value('name');
+                $names[$userId] = User::where('id', $userId)->value('name');
+                $titles[$surveyId] = Survey::where('id', $surveyId)->value('title');
+            }
+    
+        } else {
+            /** @var \App\User $user */
+            $user = Auth::user();
+            $subordinates = $user->subordinates()->pluck('id')->toArray();
+            $usersurveys = UserSurvay::whereIn('user_id', $subordinates)->paginate(10);
+    
+            $names = [];
+            $titles = [];
+    
+            foreach ($usersurveys as $survey) {
+                $userId = $survey->user_id;
+                $surveyId = $survey->survey_id;
+                // Append names and titles to the arrays
+                $names[$userId] = User::where('id', $userId)->value('name');
                 $titles[$surveyId] = Survey::where('id', $surveyId)->value('title');
             }
         }
@@ -207,7 +204,7 @@ class superadminController extends Controller
         $role_id = Auth::user()->role->id;
 
         if ($role_id == 1) {
-            $usersurveys = UserSurvay::where('percentCompleted' === 0)
+            $usersurveys = UserSurvay::where('percentCompleted', 0)
             ->paginate(10);
             $percentage = $usersurveys->pluck('percentCompleted')->toArray();
 
