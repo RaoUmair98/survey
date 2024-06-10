@@ -78,7 +78,7 @@ class superadminController extends Controller
     {
         $role_id = Auth::user()->role->id;
 
-        if ($role_id == 1) {
+        if (in_array($role_id,  [1, 2])) {
             $usersurveys = UserSurvay::paginate(10);
     
             $names = [];
@@ -110,7 +110,13 @@ class superadminController extends Controller
             }
         }
 
-        return view('superAdmin.survayResponse', compact(['usersurveys', 'names', 'titles']));
+        $managerpercentage = [];
+        if (!empty($subordinates)) {
+            $managerurveys = ManagerSurvay::whereIn('user_id', $subordinates)->where('percentCompleted', 53)->paginate(10);
+            $managerpercentage = $managerurveys->pluck('percentCompleted')->toArray();
+        }
+
+        return view('superAdmin.survayResponse', compact(['usersurveys', 'names', 'titles', 'managerpercentage']));
     }
 
     public function completedSurvays(Request $request)
@@ -119,7 +125,7 @@ class superadminController extends Controller
         $user = Auth::user();
         $subordinates = [];
 
-        if ($role_id === 1) {
+        if (in_array($role_id,  [1, 2])) {
             $usersurveys = UserSurvay::where('percentCompleted', 100)->paginate(10);
         } else {
             $subordinates = $user->subordinates()->pluck('id')->toArray();
@@ -153,7 +159,7 @@ class superadminController extends Controller
     {
         $role_id = Auth::user()->role->id;
 
-        if ($role_id == 1) {
+        if (in_array($role_id,  [1, 2])) {
             $usersurveys = UserSurvay::where('percentCompleted', '<', 100)
             ->where('percentCompleted', '>', 0)
             ->paginate(10);
@@ -203,7 +209,7 @@ class superadminController extends Controller
     {
         $role_id = Auth::user()->role->id;
 
-        if ($role_id == 1) {
+        if (in_array($role_id,  [1, 2])) {
             $usersurveys = UserSurvay::where('percentCompleted', 0)
             ->paginate(10);
             $percentage = $usersurveys->pluck('percentCompleted')->toArray();

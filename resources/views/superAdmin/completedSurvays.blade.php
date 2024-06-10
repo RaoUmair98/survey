@@ -123,7 +123,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $titles[$usersurvey->survey_id] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="min-w-[10rem] h-4 bg-gray-200 rounded-full">
-                                            <div class="h-full text-center text-xs text-white {{  isset($managerpercentage[0]) && $managerpercentage[0] == 53 ? 'bg-red-500' : 'bg-green-500' }} rounded-full"
+                                            <div class="h-full text-center text-xs text-white {{  isset($managerpercentage[0]) && $managerpercentage[0] == 53 && $usersurvey->percentCompleted == 100 ? 'bg-red-500' : 'bg-green-500' }} rounded-full"
                                                 style="width: {{ $usersurvey->percentCompleted }}%;">
                                                 {{ $usersurvey->percentCompleted }}%
                                             </div>
