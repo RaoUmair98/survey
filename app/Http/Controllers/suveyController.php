@@ -10,20 +10,19 @@ use App\Models\SurveyResponse;
 use App\Models\User;
 use App\Models\UserSurvay;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class suveyController extends Controller
 {
     public function index(Request $request)
     {
+        $user = Auth::user();
         $survey = Survey::findOrfail($request->surveyId);
         $category = SurveyCategory::where('id', $survey->category_id)->get();
         $category_name = $category->pluck('name')->toArray();
         $evaluation = Evaluation::where('survey_id', $survey->id)->get();
-        $user_survey = UserSurvay::where('survey_id', $survey->id)->get();
-
-        foreach ($user_survey as $surveys){
-            $percentage = $surveys->percentCompleted == 100;
-        }
+        $user_survey = UserSurvay::where('survey_id', $survey->id)->where('user_id', $user->id)->get();
+        $percentage = $user_survey->pluck('percentCompleted')->toArray();
+       
         return view('userSurvey.stepzero', compact(['survey', 'percentage', 'category_name', 'evaluation']));
     }
 

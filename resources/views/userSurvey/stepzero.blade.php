@@ -67,7 +67,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-100 text-sm">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="p-6 space-y-2 bg-gray-100 text-gray-800">
-                        @if(!$percentage)
+                        @if($percentage[0] === 0)
                         <h3 class="text-base font-semibold">Part I: Instructions</h3>
 
                         <div class="flex gap-3">
@@ -135,7 +135,7 @@
                     <h1 class="text-2xl font-bold mb-4 mt-8 text-center">{{ $survey->title }}</h1>
 
 
-                    @if(!$percentage)
+                    @if($percentage[0] === 0)
                         <div class="flex items-center text-sm text-gray-500 mb-2 mx-4 justify-between">
                             <div>
                                 <span class="mr-2">End Date: {{ $survey->end_date }}</span>
@@ -172,7 +172,7 @@
                             <strong>
                                 If you are unable to evaluate or comment within a specific area, please skip and move to the
                                 next area/review question.
-                            </strong>
+                            </strong>   
                         </div>
                         {{-- button --}}
                         <div class="flex justify-end my-6 mx-4 gap-x-1">
