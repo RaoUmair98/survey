@@ -61,7 +61,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>Contact us at <a href="mailto:woodviewhr@woodview.ca">woodviewhr@woodview.ca</a></p>
+            <p>Contact us at <a href="mailto:woodview_hr@woodview.ca">woodview_hr@woodview.ca</a></p>
         </div>
     </div>
 </body>
